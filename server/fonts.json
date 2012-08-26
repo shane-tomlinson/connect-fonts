@@ -1,0 +1,111 @@
+{
+  "OpenSansRegular": {
+    "fontFamily": "Open Sans",
+    "fontStyle": "normal",
+    "fontWeight": "400",
+    "formats": [
+      {
+        "type": "local",
+        "location": "Open Sans"
+      },
+      {
+        "type": "local",
+        "location": "OpenSans"
+      },
+      {
+        "type": "embedded-opentype",
+        "location": "/fonts/OpenSans-Regular.eot"
+      },
+      {
+        "type": "woff",
+        "location": "/fonts/OpenSans-Regular.woff"
+      },
+      {
+        "type": "truetype",
+        "location": "/fonts/OpenSans-Regular.ttf"
+      }
+      ]
+  }, 
+  "OpenSansLight": {
+    "fontFamily": "Open Sans",
+    "fontStyle": "normal",
+    "fontWeight": "300",
+    "formats": [
+      {
+        "type": "local",
+        "location": "Open Sans Light"
+      },
+      {
+        "type": "local",
+        "location": "OpenSansLight"
+      },
+      {
+        "type": "embedded-opentype",
+        "location": "/fonts/OpenSans-Light.eot"
+      },
+      {
+        "type": "woff",
+        "location": "/fonts/OpenSans-Light.woff"
+      },
+      {
+        "type": "truetype",
+        "location": "/fonts/OpenSans-Light.ttf"
+      }
+      ]
+  }, 
+  "OpenSansBold": {
+    "fontFamily": "Open Sans",
+    "fontStyle": "normal",
+    "fontWeight": "700",
+    "formats": [
+      {
+        "type": "local",
+        "location": "Open Sans Bold"
+      },
+      {
+        "type": "local",
+        "location": "OpenSansBold"
+      },
+      {
+        "type": "embedded-opentype",
+        "location": "/fonts/OpenSans-Bold.eot"
+      },
+      {
+        "type": "woff",
+        "location": "/fonts/OpenSans-Bold.woff"
+      },
+      {
+        "type": "truetype",
+        "location": "/fonts/OpenSans-Bold.ttf"
+      }
+      ]
+  }, 
+  "OpenSansItalic": {
+    "fontFamily": "Open Sans",
+    "fontStyle": "italic",
+    "fontWeight": "400",
+    "formats": [
+      {
+        "type": "local",
+        "location": "Open Sans Italic"
+      },
+      {
+        "type": "local",
+        "location": "OpenSansItalic"
+      },
+      {
+        "type": "embedded-opentype",
+        "location": "/fonts/OpenSans-Italic.eot"
+      },
+      {
+        "type": "woff",
+        "location": "/fonts/OpenSans-Italic.woff"
+      },
+      {
+        "type": "truetype",
+        "location": "/fonts/OpenSans-Italic.ttf"
+      }
+      ]
+  } 
+}
+

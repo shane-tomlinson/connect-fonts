@@ -1,0 +1,7 @@
+@font-face {
+  font-family: '<%= fontFamily %>';
+  font-style: <%= fontStyle %>;
+  font-weight: <%= fontWeight %>;
+  src: <% formats.forEach(function(format, index) { %><%- partial("format", { format: format.type, location: format.location, index: index, total: formats.length }) %> <% }); %>
+}
+

@@ -1,0 +1,24 @@
+{
+    "name": "font-server"
+  , "version": "0.0.1"
+  , "dependencies": {
+      "ejs": "0.4.3"
+    , "connect": "1.8.5"
+    , "express": "2.5.0"
+    , "urlparse": "0.0.1"
+    , "postprocess": "0.0.3"
+    , "connect-cachify": "0.0.3"
+    , "uglify-js": "1.2.5"
+    , "uglifycss": "0.0.5"
+   }
+  , "scripts": {
+        "start": "./server/start.js"
+      , "test":  "./node_modules/.bin/mocha -G server/test/cases/*"
+  },
+  "engines": {
+    "node": ">= 0.4.7"
+  },
+  "devDependencies": {
+    "awsbox": "0.2.14"
+  }
+}
