@@ -68,11 +68,19 @@
       },
       {
         "type": "embedded-opentype",
-        "location": "/fonts/OpenSans-Bold.eot"
+        "location": {
+          "latin": "/fonts/OpenSans-Bold.eot",
+          "cyrillic": "/fonts/OpenSans-Bold-Cyrillic.eot",
+          "extended": "/fonts/OpenSans-Bold-Extended.eot"
+        }
       },
       {
         "type": "woff",
-        "location": "/fonts/OpenSans-Bold.woff"
+        "location": {
+          "latin": "/fonts/OpenSans-Bold.woff",
+          "cyrillic": "/fonts/OpenSans-Bold-Cyrillic.woff",
+          "extended": "/fonts/OpenSans-Bold-Extended.woff"
+        }
       },
       {
         "type": "truetype",

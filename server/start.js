@@ -20,7 +20,7 @@ app.configure(function(){
   app.set('views', root + 'templates/');
 
   function getRegisteredFonts() {
-    var fontStr = fs.readFileSync(__dirname + "/fonts.json", "utf8");
+    var fontStr = fs.readFileSync(__dirname + "/config/fonts.json", "utf8");
     fontStr = fontStr.replace(/\/\/.*/g, "");
     return JSON.parse(fontStr);
   }
@@ -37,7 +37,7 @@ app.configure(function(){
     return ua.indexOf("iOS") > -1;
   }
 
-  function formatUASupports(ua) {
+  function getSupportedFormatsForUA(ua) {
     return {
       local: true,
       truetype: supportsTruetype(ua),
@@ -46,16 +46,35 @@ app.configure(function(){
     };
   }
 
+  function getFontTypeForLanguage(lang) {
+    var fontTypes = JSON.parse(fs.readFileSync(__dirname + "/config/language-font-types.json", "utf8"));
+    var genericLang = lang.split("-");
+    // If language specific font set is not found, use the extended font set.
+    return fontTypes[lang] || fontTypes[genericLang] || "extended";
+  }
+
+  function getLocationForLanguage(lang, locations) {
+    if(typeof locations === "string") return locations;
+
+    if(!locations.extended) throw new Error("extended must be specified");
+
+    return locations[getFontTypeForLanguage(lang)];
+  }
+
   function filterConfigForUAAndLanguage(ua, lang, fontConfig) {
     var uaSpecificConfig = {};
     for (var key in fontConfig) {
       if (key === "formats") {
         uaSpecificConfig.formats = [];
-        var uaSupportedFormats = formatUASupports(ua);
+        var uaSupportedFormats = getSupportedFormatsForUA(ua);
 
         fontConfig.formats.forEach(function(format) {
           if (uaSupportedFormats[format.type]) {
-            uaSpecificConfig.formats.push(format);
+            var formatConfig = {
+              type: format.type,
+              location: getLocationForLanguage(lang, format.location)
+            };
+            uaSpecificConfig.formats.push(formatConfig);
           }
         });
       }
