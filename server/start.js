@@ -46,7 +46,7 @@ app.configure(function(){
   }
 
   function supportsEmbeddedOpentype(ua) {
-    return ua.indexOf("Microsoft") > -1 || ua.indexOf("Opera") > -1;
+    return ua.indexOf("MSIE") > -1 || ua.indexOf("Opera") > -1;
   }
 
   function supportsTruetype(ua) {
