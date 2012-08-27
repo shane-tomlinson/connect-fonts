@@ -15,9 +15,17 @@ const PORT=config.port;
 const root = __dirname + '/../client/';
 
 app.configure(function(){
-  app.use(express.static(root + "static/"));
   app.use(app.router);
   app.set('views', root + 'templates/');
+
+  app.use(function(req, res, next) {
+    res.on('header', function() {
+      res.setHeader('Access-Control-Allow-Origin', '*');
+    });
+    next();
+  });
+
+  app.use(express.static(root + "static/"));
 
   function getRegisteredFonts() {
     var fontStr = fs.readFileSync(__dirname + "/config/fonts.json", "utf8");
@@ -48,8 +56,9 @@ app.configure(function(){
 
   function getFontTypeForLanguage(lang) {
     var fontTypes = JSON.parse(fs.readFileSync(__dirname + "/config/language-font-types.json", "utf8"));
-    var genericLang = lang.split("-");
+    var genericLang = lang.split("-")[0];
     // If language specific font set is not found, use the extended font set.
+    console.log("lang: " + lang + " generic_lang: " + genericLang);
     return fontTypes[lang] || fontTypes[genericLang] || "extended";
   }
 

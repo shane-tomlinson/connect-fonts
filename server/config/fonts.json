@@ -18,7 +18,10 @@
       },
       {
         "type": "woff",
-        "location": "/fonts/OpenSans-Regular.woff"
+        "location": {
+          "latin": "/fonts/OpenSans-Regular-latin.woff",
+          "extended": "/fonts/OpenSans-Regular-extended.woff"
+        }
       },
       {
         "type": "truetype",
@@ -45,7 +48,10 @@
       },
       {
         "type": "woff",
-        "location": "/fonts/OpenSans-Light.woff"
+        "location": {
+          "latin": "/fonts/OpenSans-Light-latin.woff",
+          "extended": "/fonts/OpenSans-Light-extended.woff"
+        }
       },
       {
         "type": "truetype",
@@ -68,18 +74,13 @@
       },
       {
         "type": "embedded-opentype",
-        "location": {
-          "latin": "/fonts/OpenSans-Bold.eot",
-          "cyrillic": "/fonts/OpenSans-Bold-Cyrillic.eot",
-          "extended": "/fonts/OpenSans-Bold-Extended.eot"
-        }
+        "location": "/fonts/OpenSans-Bold.eot"
       },
       {
         "type": "woff",
         "location": {
-          "latin": "/fonts/OpenSans-Bold.woff",
-          "cyrillic": "/fonts/OpenSans-Bold-Cyrillic.woff",
-          "extended": "/fonts/OpenSans-Bold-Extended.woff"
+          "latin": "/fonts/OpenSans-Bold-latin.woff",
+          "extended": "/fonts/OpenSans-Bold-extended.woff"
         }
       },
       {
@@ -107,7 +108,10 @@
       },
       {
         "type": "woff",
-        "location": "/fonts/OpenSans-Italic.woff"
+        "location": {
+          "latin": "/fonts/OpenSans-Italic-latin.woff",
+          "extended": "/fonts/OpenSans-Italic-extended.woff"
+        }
       },
       {
         "type": "truetype",
