@@ -7,7 +7,7 @@
     , "express": "2.5.0"
     , "urlparse": "0.0.1"
     , "postprocess": "0.0.3"
-    , "connect-cachify": "0.0.3"
+    , "connect-cachify": "0.0.10"
     , "uglify-js": "1.2.5"
     , "uglifycss": "0.0.5"
    }

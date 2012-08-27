@@ -7,16 +7,19 @@
 const express = require("express")
       app = express.createServer(),
       fs = require("fs"),
+      cachify = require('connect-cachify'),
       config = require("./config").config;
 
 const IP_ADDRESS=config.ip_address;
 const PORT=config.port;
 
 const root = __dirname + '/../client/';
+const templateRoot = root + "templates/"
+const staticRoot = root + "static/";
 
 app.configure(function(){
   app.use(app.router);
-  app.set('views', root + 'templates/');
+  app.set('views', templateRoot);
 
   app.use(function(req, res, next) {
     res.on('header', function() {
@@ -25,7 +28,12 @@ app.configure(function(){
     next();
   });
 
-  app.use(express.static(root + "static/"));
+  app.use(cachify.setup({}, {
+    prefix: "v",
+    production: config.use_minified_resources,
+    root: staticRoot
+  }));
+  app.use(express.static(staticRoot));
 
   function getRegisteredFonts() {
     var fontStr = fs.readFileSync(__dirname + "/config/fonts.json", "utf8");
