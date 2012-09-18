@@ -13,22 +13,24 @@ function loadJSON(path) {
 }
 
 function getRegisteredFonts() {
-  return loadJSON(__dirname + "/config/fonts.json");
+  return loadJSON(__dirname + "/../config/fonts.json");
 }
 
 function getLanguageToLocations() {
-  return loadJSON(__dirname + "/config/language-font-types.json");
+  return loadJSON(__dirname + "/../config/language-font-types.json");
 }
+
+exports.setup = function() {
+  css_generator.setup({
+    fonts: getRegisteredFonts(),
+    languageToLocations: getLanguageToLocations()
+  });
+};
 
 exports.font_server = function(req, res, next) {
   res.setHeader('Content-Type', 'text/css', 'text/css; charset=utf8');
 
   try {
-    css_generator.setup({
-      fonts: getRegisteredFonts(),
-      languageToLocations: getLanguageToLocations()
-    });
-
     var cssStr = css_generator.get_font_css({
       ua: req.headers['user-agent'],
       lang: req.params.lang,

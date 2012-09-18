@@ -8,7 +8,7 @@ const express = require("express")
       app = express.createServer(),
       fs = require("fs"),
       cachify = require('connect-cachify'),
-      config = require("./config").config,
+      config = require("../config/config").config,
       fontServer = require("./middleware");
 
 const IP_ADDRESS=config.ip_address;
@@ -33,6 +33,7 @@ app.configure(function(){
   }));
   app.use(express.static(staticRoot));
 
+  fontServer.setup();
   app.get("/:lang/:fonts/fonts.css", fontServer.font_server);
 });
 
