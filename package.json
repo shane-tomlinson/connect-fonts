@@ -1,17 +1,23 @@
 {
-    "name": "font-server"
-  , "version": "0.0.1"
-  , "dependencies": {
-      "express": "2.5.11"
-    , "connect-cachify": "0.0.10"
-   }
-  , "scripts": {
-        "start": "./server/start.js"
+  "Author": "Shane Tomlinson <shane@shanetomlinson.com> (https://shanetomlinson.com)",
+  "name": "font-server",
+  "version": "0.0.1",
+  "dependencies": {
+      "express": "2.5.11",
+      "ejs": ">=0.6.1",
+      "connect-cachify": "0.0.10"
+  },
+  "scripts": {
+      "start": "./server/start.js"
   },
   "engines": {
     "node": ">= 0.4.7"
   },
   "devDependencies": {
-    "awsbox": "0.2.14"
+    "awsbox": "0.2.14",
+    "nodeunit": ">=0.6.4"
+  },
+  "scripts": {
+    "test": "nodeunit test"
   }
 }

@@ -5,18 +5,17 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-const ejs  = require("ejs"),
-      fs   = require("fs"),
-      path = require("path");
+const ejs     = require("ejs"),
+      cachify = require("connect-cachify"),
+      fs      = require("fs"),
+      path    = require("path");
 
 "use strict";
 
-function getRegisteredFonts() {
-  var fontStr = fs.readFileSync(__dirname + "/config/fonts.json", "utf8");
-  // strip out any comments
-  fontStr = fontStr.replace(/\/\/.*/g, "");
-  return JSON.parse(fontStr);
-}
+var languageToLocations,
+    registeredFonts;
+
+cachify.setup({});
 
 function supportsWoff(ua) {
   return ua.indexOf("Firefox") > -1 || ua.indexOf("Chrome") > -1 || ua.indexOf("Safari") > -1;
@@ -40,11 +39,10 @@ function getSupportedFormatsForUA(ua) {
 }
 
 function getFontTypeForLanguage(lang) {
-  var fontTypes = JSON.parse(fs.readFileSync(__dirname + "/config/language-font-types.json", "utf8"));
   var genericLang = lang.split("-")[0];
   // If language specific font set is not found, use the extended font set.
-  console.log("lang: " + lang + " generic_lang: " + genericLang);
-  return fontTypes[lang] || fontTypes[genericLang] || "extended";
+  /*console.log("lang: " + lang + " generic_lang: " + genericLang);*/
+  return languageToLocations[lang] || languageToLocations[genericLang] || "extended";
 }
 
 function getLocationForLanguage(lang, locations) {
@@ -84,40 +82,78 @@ function getRequestedFonts(options) {
   var ua = options.ua,
       lang = options.lang,
       requestedFontNames = options.fonts,
-      registeredFonts = getRegisteredFonts(),
       requestedFonts = [];
 
-  console.log("UA: " + ua + ", language: " + lang + ", fonts: " + requestedFontNames);
+  /*console.log("UA: " + ua + ", language: " + lang + ", fonts: " + requestedFontNames);*/
 
   requestedFontNames.forEach(function(requestedFontName) {
     var fontConfig = registeredFonts[requestedFontName];
-    if (fontConfig) requestedFonts.push(filterConfigForUAAndLanguage(ua, lang, fontConfig));
+    if (fontConfig) {
+      requestedFonts.push(filterConfigForUAAndLanguage(ua, lang, fontConfig));
+    }
     else throw new Error("invalid font: " + requestedFontName);
   });
 
   return requestedFonts;
 }
 
+function getCSSForSupportedFonts(supportedFonts) {
+  var templatePath = path.join(__dirname, "..", "templates", "fonts_css.ejs");
+  var templateStr = fs.readFileSync(templatePath, "utf8");
+  var cssStr = ejs.render(templateStr, {
+    fonts: supportedFonts,
+    cachify: cachify.cachify
+  });
+
+  return cssStr;
+}
+
+function checkRequired(options, name) {
+  if(!options) {
+    throw new Error("options not specified");
+  }
+  else if (name && !(name in options)) {
+    throw new Error("Missing required option: " + name);
+  }
+}
+
+/*
+ * @method setup
+ * @param {object} options
+ */
+exports.setup = function(options) {
+  checkRequired(options);
+  checkRequired(options, "fonts");
+  checkRequired(options, "languageToLocations");
+
+  languageToLocations = options.languageToLocations;
+  registeredFonts = options.fonts;
+};
+
 /*
  * @method get_font_css
  * @param {object} options
- * @param {string} ua - user agent requesting fonts
- * @param {string} lang - language user agent is using
- * @param {string} fonts - comma separated list of fonts
+ * @param {string} options.ua - user agent requesting fonts
+ * @param {string} options.lang - language user agent is using
+ * @param {Array of strings} options.fonts - list of fonts to get CSS for.
  */
 exports.get_font_css = function(options) {
-  var fonts = getRequestedFonts({
+
+  if(!(languageToLocations && registeredFonts)) {
+    throw new Error("setup must be called");
+  }
+
+  checkRequired(options);
+  checkRequired(options, "ua");
+  checkRequired(options, "lang");
+  checkRequired(options, "fonts");
+
+  var supportedFonts = getRequestedFonts({
     ua: options.ua,
     lang: options.lang,
     fonts: options.fonts
   });
 
-  var templatePath = path.join(__dirname, "..", "templates", "fonts_css.ejs");
-  var templateStr = fs.readFileSync(templatePath);
-  var str = ejs.render(templateStr, {
-    fonts: fonts
-  });
-
-  return str;
+  return getCSSForSupportedFonts(supportedFonts);
 };
 

@@ -1,0 +1,33 @@
+{
+  "OpenSansRegular": {
+    "fontFamily": "Open Sans",
+    "fontStyle": "normal",
+    "fontWeight": "400",
+    "formats": [
+      {
+        "type": "local",
+        "location": "Open Sans"
+      },
+      {
+        "type": "local",
+        "location": "OpenSans"
+      },
+      {
+        "type": "embedded-opentype",
+        "location": "/fonts/OpenSans-Regular.eot"
+      },
+      {
+        "type": "woff",
+        "location": {
+          "latin": "/fonts/OpenSans-Regular-latin.woff",
+          "extended": "/fonts/OpenSans-Regular-extended.woff"
+        }
+      },
+      {
+        "type": "truetype",
+        "location": "/fonts/OpenSans-Regular.ttf"
+      }
+      ]
+  } 
+}
+
