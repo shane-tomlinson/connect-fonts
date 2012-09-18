@@ -14,13 +14,10 @@ const express = require("express")
 const IP_ADDRESS=config.ip_address;
 const PORT=config.port;
 
-const root = __dirname + '/../client/';
-const templateRoot = root + "templates/"
-const staticRoot = root + "static/";
+const staticRoot = __dirname + "/../static/";
 
 app.configure(function(){
   app.use(app.router);
-  app.set('views', templateRoot);
 
   app.use(function(req, res, next) {
     res.on('header', function() {

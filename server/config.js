@@ -33,8 +33,7 @@ configs.local = {
 configs.local.url = configs.local.ip_address + ":" + configs.local.port;
 
 configs.production = extend({}, configs.local, {
-  default_hostname: "fonts.mozilla.org",
-  url: "testmob.org",
+  url: "fonts.mozilla.org",
   use_minified_resources: true
 });
 
