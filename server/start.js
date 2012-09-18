@@ -36,7 +36,7 @@ app.configure(function(){
   }));
   app.use(express.static(staticRoot));
 
-  app.get("/:lang/:fonts/fonts.css", fontServer.fontServer);
+  app.get("/:lang/:fonts/fonts.css", fontServer.font_server);
 });
 
 app.listen(PORT, IP_ADDRESS);

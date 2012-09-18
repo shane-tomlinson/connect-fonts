@@ -3,6 +3,6 @@
   font-style: <%= fontStyle %>;
   font-weight: <%= fontWeight %>;
   <% formats.forEach(function(format, index) { if(format.type === "embedded-opentype") { %>src: url('<%= cachify.cachify(format.location) %>'); <% } }) %>
-  src: <% formats.forEach(function(format, index) { %><%- partial("format", { format: format.type, location: format.location, index: index, total: formats.length }) %> <% }); %>
+  src: <% formats.forEach(function(format, index) { if(index !== 0) { %>      <% } if(format === "local") { %>local('<%= location %>')<%= index === (total - 1) ? ";" : "," %> <% } else { %>url('<%= cachify.cachify(location) %>') format('<%= format %>')<%= index === (total - 1) ? ";" : "," %> <% } }); %>
 }
 

@@ -2,7 +2,8 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-const ejs = require("ejs");
+const ejs = require("ejs"),
+      fs  = require("fs");
 
   function getRegisteredFonts() {
     var fontStr = fs.readFileSync(__dirname + "/config/fonts.json", "utf8");
@@ -91,34 +92,33 @@ const ejs = require("ejs");
     return requestedFonts;
   }
 
-  exports.fontServer = function(req, res, next) {
+  exports.font_server = function(req, res, next) {
     res.setHeader('Content-Type', 'text/css', 'text/css; charset=utf8');
 
     try {
-      var fonts = getRequestedFonts({
+      var cssStr = exports.font_css({
         ua: req.headers['user-agent'],
         lang: req.params.lang,
         fonts: req.params.fonts.split(",")
       });
 
-      res.render("fonts_css.ejs", {
-        fonts: fonts,
-        layout: false
-      });
+     // res.type("text/css");
+      res.send(cssStr, 200);
     }
     catch(e) {
       res.send(e.toString(), 404);
     }
   };
 
-  exports.font_css = function(ua, lang, fonts) {
+  exports.font_css = function(options) {
     var fonts = getRequestedFonts({
-      ua: req.headers['user-agent'],
-      lang: req.params.lang,
-      fonts: req.params.fonts.split(",")
+      ua: options.ua,
+      lang: options.lang,
+      fonts: options.fonts
     });
 
-    var str = ejs.render("fonts_css.ejs", {
+    var templateStr = fs.readFileSync(__dirname + "/../client/templates/fonts_css.ejs");
+    var str = ejs.render(templateStr, {
       fonts: fonts
     });
 
