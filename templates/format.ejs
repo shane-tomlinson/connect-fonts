@@ -1,1 +1,0 @@
-<% if(index !== 0) { %>      <% } if(format === "local") { %>local('<%= location %>')<%= index === (total - 1) ? ";" : "," %> <% } else { %>url('<%= cachify.cachify(location) %>') format('<%= format %>')<%= index === (total - 1) ? ";" : "," %> <% } %>
