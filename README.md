@@ -1,6 +1,6 @@
-# node-font-server
+# connect-fonts
 
-A simple font server with the ability to serve distinct locale specific fonts.
+A simple font middleware with the ability to serve distinct locale/browser fonts.
 
 ## Usage
 I'm trying to figure that out yet.
