@@ -9,12 +9,28 @@ const express = require("express")
       fs = require("fs"),
       cachify = require('connect-cachify'),
       config = require("../config/config").config,
-      fontServer = require("./middleware");
+      fontServer = require("../lib/font-middleware");
 
 const IP_ADDRESS=config.ip_address;
 const PORT=config.port;
 
 const staticRoot = __dirname + "/../static/";
+
+function loadJSON(path) {
+  var jsonStr = fs.readFileSync(path, "utf8");
+  // strip out any comments
+  jsonStr = jsonStr.replace(/\/\/.*/g, "");
+  return JSON.parse(jsonStr);
+}
+
+function getRegisteredFonts() {
+  return loadJSON(__dirname + "/../config/fonts.json");
+}
+
+function getLanguageToLocations() {
+  return loadJSON(__dirname + "/../config/language-font-types.json");
+}
+
 
 app.configure(function(){
   app.use(app.router);
@@ -31,10 +47,13 @@ app.configure(function(){
     production: config.use_minified_resources,
     root: staticRoot
   }));
-  app.use(express.static(staticRoot));
 
-  fontServer.setup();
-  app.get("/:lang/:fonts/fonts.css", fontServer.font_server);
+  app.use(fontServer.setup({
+    fonts: getRegisteredFonts(),
+    languageToLocations: getLanguageToLocations()
+  }));
+
+  app.use(express.static(staticRoot));
 });
 
 app.listen(PORT, IP_ADDRESS);

@@ -16,6 +16,8 @@
     "nodeunit": ">=0.6.4"
   },
   "scripts": {
-    "start": "node server/start.js"
+    "start": "node server/start.js",
+    "test": "nodeunit test"
+
   }
 }
