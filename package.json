@@ -1,10 +1,21 @@
 {
   "Author": "Shane Tomlinson <shane@shanetomlinson.com> (https://shanetomlinson.com)",
   "name": "connect-fonts",
+  "description": "A simple font middleware with the ability to serve distinct locale/browser fonts.",
+  "keywords": ["font", "font-face", "CSS"],
+  "homepage": "https://github.com/shane-tomlinson/connect-fonts",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/shane-tomlinson/connect-fonts.git"
+  },
+  "bugs": {
+    "url": "https://github.com/shane-tomlinson/connect-fonts/issues"
+  },
   "version": "0.0.1",
   "engines": {
     "node": ">= 0.4.7"
   },
+  "main": "index",
   "dependencies": {
     "node-font-face-generator": ">=0.0.2"
   },
@@ -12,8 +23,6 @@
     "nodeunit": ">=0.6.4"
   },
   "scripts": {
-    "start": "node server/start.js",
     "test": "nodeunit test"
-
   }
 }
