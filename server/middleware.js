@@ -3,9 +3,9 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 const
-css_generator = require("./generate_css");
+css_generator = require("node-font-face-generator");
 
-function loadJSONFile(path) {
+function loadJSON(path) {
   var jsonStr = fs.readFileSync(path, "utf8");
   // strip out any comments
   jsonStr = jsonStr.replace(/\/\/.*/g, "");

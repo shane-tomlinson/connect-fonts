@@ -1,23 +1,21 @@
 {
   "Author": "Shane Tomlinson <shane@shanetomlinson.com> (https://shanetomlinson.com)",
-  "name": "font-server",
+  "name": "node-font-server",
   "version": "0.0.1",
+  "engines": {
+    "node": ">= 0.4.7"
+  },
   "dependencies": {
       "express": "2.5.11",
       "ejs": ">=0.6.1",
-      "connect-cachify": "0.0.10"
-  },
-  "scripts": {
-      "start": "./server/start.js"
-  },
-  "engines": {
-    "node": ">= 0.4.7"
+      "connect-cachify": "0.0.10",
+      "node-font-face-generator": ">=0.0.2"
   },
   "devDependencies": {
     "awsbox": "0.2.14",
     "nodeunit": ">=0.6.4"
   },
   "scripts": {
-    "test": "nodeunit test"
+    "start": "node server/start.js"
   }
 }
