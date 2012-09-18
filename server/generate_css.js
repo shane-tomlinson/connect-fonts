@@ -5,8 +5,9 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-const ejs = require("ejs"),
-      fs  = require("fs");
+const ejs  = require("ejs"),
+      fs   = require("fs"),
+      path = require("path");
 
 "use strict";
 
@@ -111,7 +112,8 @@ exports.get_font_css = function(options) {
     fonts: options.fonts
   });
 
-  var templateStr = fs.readFileSync(__dirname + "/../client/templates/fonts_css.ejs");
+  var templatePath = path.join(__dirname, "..", "templates", "fonts_css.ejs");
+  var templateStr = fs.readFileSync(templatePath);
   var str = ejs.render(templateStr, {
     fonts: fonts
   });
