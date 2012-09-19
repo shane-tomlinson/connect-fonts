@@ -74,11 +74,12 @@ function testCSSNotServed(test, method, url) {
   });
 }
 
-exports.setup = nodeunit.testCase({
+exports.middleware_functioning = nodeunit.testCase({
   setUp: function (cb) {
     mw = font_middleware.setup({
       fonts: getFontConfig(),
-      languageToLocations: getLanguageToLocationsConfig()
+      language_to_locations: getLanguageToLocationsConfig(),
+      url_modifier: function(url) { return "/sha" + url; }
     });
     cb();
   },
