@@ -26,8 +26,9 @@ var ReqMock = function(options) {
     method: options.method || 'GET',
     url: options.url || '/',
     headers: {
-      'user-agent': 'Firefox'
-    }
+      'user-agent': options['user-agent']
+    },
+    params: {}
   };
 };
 
@@ -40,10 +41,15 @@ var ResMock = function(options) {
   };
 };
 
-function testCSSServed(test, method, url) {
+function getUA(ua) {
+  return typeof ua === "undefined" ? "Firefox" : ua;
+}
+
+function testCSSServed(test, method, url, ua) {
   var req = new ReqMock({
     method: method,
-    url: url
+    url: url,
+    "user-agent": getUA(ua)
   });
 
   var res = new ResMock({
@@ -53,13 +59,16 @@ function testCSSServed(test, method, url) {
     }
   });
 
-  mw(req, res, function() {});
+  mw(req, res, function() {
+    test.ok(false, "next should not have been called");
+  });
 }
 
-function testCSSNotServed(test, method, url) {
+function testCSSNotServed(test, method, url, ua) {
   var req = new ReqMock({
     method: method,
-    url: url
+    url: url,
+    "user-agent": getUA(ua)
   });
 
   var res = new ResMock({
@@ -97,6 +106,9 @@ exports.middleware_functioning = nodeunit.testCase({
   },
   'do not serve fonts for GET /random/route': function(test) {
     testCSSNotServed(test, 'GET', '/random/route');
+  },
+  'do not serve fonts if headers["user-agent"] is not specified': function(test) {
+    testCSSNotServed(test, 'GET', '/en/OpenSansRegular/fonts.css', null);
   }
 });
 
