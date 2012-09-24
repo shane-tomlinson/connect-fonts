@@ -17,7 +17,7 @@
   },
   "main": "index",
   "dependencies": {
-    "node-font-face-generator": ">=0.0.3"
+    "node-font-face-generator": "0.0.4"
   },
   "devDependencies": {
     "nodeunit": ">=0.6.4"
