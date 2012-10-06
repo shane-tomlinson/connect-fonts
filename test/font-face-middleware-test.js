@@ -70,12 +70,14 @@ function testCSSServed(test, method, url, ua, cb) {
   var res = new ResMock({
     send: function(data, code) {
       test.equal(code, 200, '200 success response expected');
+    },
+    end: function() {
+      cb(res);
     }
   });
 
   mw(req, res, function() {
-    test.ok(true, "next should have been called");
-    cb(res);
+    test.ok(false, "next should have been called");
   });
 }
 
