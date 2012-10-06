@@ -23,7 +23,7 @@ var ReqMock = function(options) {
   options = options || {};
   var headers = {
     'user-agent': options['user-agent'],
-    'If-None-Match': options['If-None-Match']
+    'if-none-match': options['if-none-match']
   };
 
 
@@ -150,7 +150,7 @@ exports.middleware_functioning = nodeunit.testCase({
         method: 'GET',
         url: '/en/OpenSansRegular/fonts.css',
         "user-agent": getUA(),
-        "If-None-Match": firstRes.getHeader("ETag")
+        "if-none-match": firstRes.getHeader("ETag")
       });
 
       var res = new ResMock({
