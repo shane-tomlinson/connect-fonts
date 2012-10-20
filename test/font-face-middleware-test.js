@@ -69,6 +69,7 @@ function testCSSServed(test, method, url, ua, cb) {
 
   var res = new ResMock({
     send: function(data, code) {
+      test.equal(this.getHeader('Content-Type'), 'text/css; charset=utf8');
       test.equal(code, 200, '200 success response expected');
     },
     end: function() {
