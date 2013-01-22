@@ -13,8 +13,8 @@ function getFontConfig() {
   return loadJSON(__dirname + '/sample-config/fonts.json');
 }
 
-function getLanguageToLocationsConfig() {
-  return loadJSON(__dirname + '/sample-config/language-to-location.json');
+function getLocaleToURLKeys() {
+  return loadJSON(__dirname + '/sample-config/locale-to-url.json');
 }
 
 var mw;
@@ -106,7 +106,7 @@ function setup(config) {
 
   mw = font_middleware.setup({
     fonts: getFontConfig(),
-    language_to_locations: getLanguageToLocationsConfig(),
+    locale_to_url_keys: getLocaleToURLKeys(),
     url_modifier: function(url) { return "/sha" + url; },
     etags: config.etags || false,
     "cache-control": config["cache-control"] || false

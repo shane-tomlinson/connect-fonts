@@ -6,26 +6,26 @@
     "formats": [
       {
         "type": "local",
-        "location": "Open Sans"
+        "url": "Open Sans"
       },
       {
         "type": "local",
-        "location": "OpenSans"
+        "url": "OpenSans"
       },
       {
         "type": "embedded-opentype",
-        "location": "/fonts/OpenSans-Regular.eot"
+        "url": "/fonts/OpenSans-Regular.eot"
       },
       {
         "type": "woff",
-        "location": {
+        "url": {
           "latin": "/fonts/OpenSans-Regular-latin.woff",
           "extended": "/fonts/OpenSans-Regular-extended.woff"
         }
       },
       {
         "type": "truetype",
-        "location": "/fonts/OpenSans-Regular.ttf"
+        "url": "/fonts/OpenSans-Regular.ttf"
       }
       ]
   } 
