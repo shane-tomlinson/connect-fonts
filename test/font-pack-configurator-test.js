@@ -24,7 +24,7 @@ exports.font_pack_configurator = nodeunit.testCase({
     test.equal(fontConfig.fontStyle, "normal");
     test.equal(fontConfig.fontWeight, "400");
 
-    test.equal(fontConfig.root, path.join(__dirname, "/sample-config/"));
+    test.equal(fontConfig.root, path.join(__dirname, "/sample-data/"));
 
     // all 6 fonts in config, 2 local, two remote.
     test.equal(fontConfig.formats.length, 6);
@@ -38,18 +38,16 @@ exports.font_pack_configurator = nodeunit.testCase({
         test.ok("default" in format.url);
         test.ok("en" in format.url);
 
-        test.ok(format.type === "truetype"
-                    || format.type === "svg"
-                    || format.type === "embedded-opentype"
-                    || format.type === "woff");
+        test.ok(["truetype", "svg", "embedded-opentype", "woff"]
+                    .indexOf(format.type) > -1);
 
         // check that the format of the URL is good
         test.ok(format.url.cyrillic.indexOf(path.join(
-            "/cyrillic", format, "opensans-regular")) === 0);
+            "/fonts/cyrillic", format, "opensans-regular")) === 0);
       }
     });
 
-    console.log(JSON.stringify(fontConfig, null, 2));
+    /*console.log(JSON.stringify(fontConfig, null, 2));*/
     test.done();
   }
 });

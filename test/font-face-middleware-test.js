@@ -1,6 +1,8 @@
 var fs              = require('fs'),
     font_middleware = require('../lib/font-middleware'),
-    nodeunit        = require('nodeunit');
+    nodeunit        = require('nodeunit'),
+    ReqMock         = require('./mocks/req-mock'),
+    ResMock         = require('./mocks/res-mock');
 
 function loadJSON(path) {
   var jsonStr = fs.readFileSync(path, 'utf8');
@@ -18,43 +20,6 @@ function getLocaleToURLKeys() {
 }
 
 var mw;
-
-var ReqMock = function(options) {
-  options = options || {};
-  var headers = {
-    'user-agent': options['user-agent'],
-    'if-none-match': options['if-none-match']
-  };
-
-
-  var config = {
-    method: options.method || 'GET',
-    url: options.url || '/',
-    headers: headers,
-    getHeader: function(header) {
-      return headers[header];
-    },
-    params: {}
-  };
-
-  return config;
-};
-
-var ResMock = function(options) {
-  options = options || {};
-  var headers = {};
-
-  return {
-    setHeader: options.setHeader || function(header, value) {
-      headers[header] = value;
-    },
-    getHeader: function(header) {
-      return headers[header];
-    },
-    send: options.send || function() {},
-    end: options.end || function() {}
-  };
-};
 
 function getUA(ua) {
   return typeof ua === "undefined" ? "Firefox" : ua;
