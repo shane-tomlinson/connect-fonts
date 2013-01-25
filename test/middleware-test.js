@@ -1,5 +1,5 @@
 var fs              = require('fs'),
-    font_middleware = require('../lib/font-middleware'),
+    middleware      = require('../lib/middleware'),
     nodeunit        = require('nodeunit'),
     ReqMock         = require('./mocks/req-mock'),
     ResMock         = require('./mocks/res-mock');
@@ -69,7 +69,7 @@ function testCSSNotServed(test, method, url, ua) {
 function setup(config) {
   config = config || {};
 
-  mw = font_middleware.setup({
+  mw = middleware.setup({
     fonts: getFontConfig(),
     locale_to_url_keys: getLocaleToURLKeys(),
     url_modifier: function(url) { return "/sha" + url; },
