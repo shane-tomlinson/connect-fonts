@@ -47,7 +47,7 @@ exports.font_pack_configurator = nodeunit.testCase({
       }
     });
 
-    /*console.log(JSON.stringify(fontConfig, null, 2));*/
+    console.log(JSON.stringify(fontConfig, null, 2));
     test.done();
   }
 });

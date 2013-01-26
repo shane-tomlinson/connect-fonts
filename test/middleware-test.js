@@ -1,3 +1,7 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+
 var fs              = require('fs'),
     middleware      = require('../lib/middleware'),
     nodeunit        = require('nodeunit'),
@@ -12,7 +16,7 @@ function loadJSON(path) {
 }
 
 function getFontConfig() {
-  return loadJSON(__dirname + '/sample-config/fonts.json');
+  return require('./sample-config/fonts.js');
 }
 
 function getLocaleToURLKeys() {
@@ -87,23 +91,23 @@ exports.middleware_functioning = nodeunit.testCase({
     cb();
   },
 
-  'serve fonts.css for GET /en/OpenSansRegular/fonts.css, no caching headers set': function(test) {
-    testCSSServed(test, 'GET', '/en/OpenSansRegular/fonts.css', undefined, function(res) {
+  'serve fonts.css for GET /en/opensans-regular/fonts.css, no caching headers set': function(test) {
+    testCSSServed(test, 'GET', '/en/opensans-regular/fonts.css', undefined, function(res) {
       test.ok(!res.getHeader("Cache-Control"), "Cache-Control header is not set");
       test.ok(!res.getHeader("ETag"), "ETag header is not set");
       test.done();
     });
   },
 
-  'serve fonts.css for GET /random_hash/en/OpenSansRegular/fonts.css, check to make sure cache controls can be busted with a string prepended to URL': function(test) {
-    testCSSServed(test, 'GET', '/random_hash/en/OpenSansRegular/fonts.css', undefined, function(res) {
+  'serve fonts.css for GET /random_hash/en/opensans-regular/fonts.css, check to make sure cache controls can be busted with a string prepended to URL': function(test) {
+    testCSSServed(test, 'GET', '/random_hash/en/opensans-regular/fonts.css', undefined, function(res) {
       test.done();
     });
   },
 
   'Cache-Control headers are set with cache-control option': function(test) {
     setup({ "cache-control": true });
-    testCSSServed(test, 'GET', '/en/OpenSansRegular/fonts.css', undefined, function(res) {
+    testCSSServed(test, 'GET', '/en/opensans-regular/fonts.css', undefined, function(res) {
       test.ok(res.getHeader("Cache-Control"), "Cache-Control header is set");
       test.done();
     }, false, true);
@@ -111,12 +115,12 @@ exports.middleware_functioning = nodeunit.testCase({
 
   'ETags are set/checked with etags option': function(test) {
     setup({ etags: true });
-    testCSSServed(test, 'GET', '/en/OpenSansRegular/fonts.css', undefined, function(firstRes) {
+    testCSSServed(test, 'GET', '/en/opensans-regular/fonts.css', undefined, function(firstRes) {
       test.ok(firstRes.getHeader("ETag"), "ETag header is set");
 
       var req = new ReqMock({
         method: 'GET',
-        url: '/en/OpenSansRegular/fonts.css',
+        url: '/en/opensans-regular/fonts.css',
         "user-agent": getUA(),
         "if-none-match": firstRes.getHeader("ETag")
       });
@@ -135,8 +139,8 @@ exports.middleware_functioning = nodeunit.testCase({
     }, true);
   },
 
-  'do not serve fonts.css for POST /en/OpenSansRegular/fonts.css': function(test) {
-    testCSSNotServed(test, 'POST', '/en/OpenSansRegular/fonts.css');
+  'do not serve fonts.css for POST /en/opensans-regular/fonts.css': function(test) {
+    testCSSNotServed(test, 'POST', '/en/opensans-regular/fonts.css');
   },
 
   'do not serve fonts.css for GET /en/Unknown/fonts.css': function(test) {
@@ -148,7 +152,7 @@ exports.middleware_functioning = nodeunit.testCase({
   },
 
   'do not serve fonts if headers["user-agent"] is not specified': function(test) {
-    testCSSNotServed(test, 'GET', '/en/OpenSansRegular/fonts.css', null);
+    testCSSNotServed(test, 'GET', '/en/opensans-regular/fonts.css', null);
   }
 });
 
