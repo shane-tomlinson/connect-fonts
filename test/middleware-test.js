@@ -90,39 +90,55 @@ exports.middleware_functioning = nodeunit.testCase({
   },
 
   'Cache-Control headers are set with cache-control option': function(test) {
-    /*setup({ "cache-control": true });*/
-    testCSSServed(test, 'GET', '/v/8abc2feaab/en/opensans-regular/fonts.css', undefined, function(res) {
+    testCSSServed(test, 'GET', '/f/8abc2feaab/en/opensans-regular/fonts.css', undefined, function(res) {
       test.ok(res.getHeader("Cache-Control"), "Cache-Control header is set");
       test.done();
     }, false, true);
   },
 
-  /*
   'ETags are set/checked with etags option': function(test) {
     setup({ etags: true });
-    testCSSServed(test, 'GET', '/en/opensans-regular/fonts.css', undefined, function(firstRes) {
-      test.ok(firstRes.getHeader("ETag"), "ETag header is set");
-
+    testCSSServed(test, 'GET', '/en/opensans-regular/fonts.css', undefined, function(generateEtagResponse) {
+      // because of the way that etagify works, the first response will not have
+      // an etag, but one will be generated for the second response.
       var req = new ReqMock({
         method: 'GET',
         url: '/en/opensans-regular/fonts.css',
         "user-agent": getUA(),
-        "if-none-match": firstRes.getHeader("ETag")
       });
 
-      var res = new ResMock({
+      // the second response will have an etag.
+      var eTaggedResponse = new ResMock({
         end: function() {
-          test.equal(this.statusCode, 304, "304 not-changed response expected");
-          test.done();
+          test.ok(this.getHeader("ETag"), "ETag header is set");
+
+          var req = new ReqMock({
+            method: 'GET',
+            url: '/en/opensans-regular/fonts.css',
+            "user-agent": getUA(),
+            "if-none-match": this.getHeader("ETag")
+          });
+
+          // finally, this last response should be 304'd 'cause etags kick in.
+          var threeOhFouredResponse = new ResMock({
+            end: function() {
+              test.equal(this.statusCode, 304,
+                  "304 not-changed response expected");
+              test.done();
+            }
+          });
+
+          mw(req, threeOhFouredResponse, function() {
+            test.equal(false, "the next function should not be called");
+          });
         }
       });
 
-      mw(req, res, function() {
+      mw(req, eTaggedResponse, function() {
         test.equal(false, "the next function should not be called");
-        test.done();
       });
     }, true);
-  },*/
+  },
 
   'do not serve fonts.css for POST /en/opensans-regular/fonts.css': function(test) {
     testCSSNotServed(test, 'POST', '/en/opensans-regular/fonts.css');

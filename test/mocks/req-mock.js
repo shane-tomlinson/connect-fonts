@@ -14,7 +14,7 @@ module.exports = function(options) {
     url: options.url || '/',
     headers: headers,
     getHeader: function(header) {
-      return headers[header];
+      return headers[header.toLowerCase()];
     },
     params: {}
   };

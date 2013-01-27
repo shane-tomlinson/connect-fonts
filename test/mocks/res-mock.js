@@ -5,21 +5,22 @@
 module.exports = function(options) {
   options = options || {};
   return {
-    headers: {},
+    _headers: {},
     setHeader: options.setHeader || function(header, value) {
-      this.headers[header] = value;
+      this._headers[header.toLowerCase()] = value;
     },
     getHeader: function(header) {
-      return this.headers[header];
+      return this._headers[header.toLowerCase()];
     },
     header: function(header) {
-      return this.getHeader(header);
+      return this.getHeader(header.toLowerCase());
     },
     removeHeader: function(header) {
-      delete this.headers[header];
+      delete this._headers[header.toLowerCase()];
     },
     toString: function() {
-      return JSON.stringify(this.headers, null, 2);
+      return "status: " + this.statusCode + " " +
+          JSON.stringify(this._headers, null, 2);
     },
     write: function() {},
     send: options.send || function() {},
