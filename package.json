@@ -17,6 +17,8 @@
   },
   "main": "index",
   "dependencies": {
+    "connect-cachify": "https://shanetomlinson.com/static/connect-cachify-0.0.13alpha.tgz",
+    "etagify": "0.0.2",
     "node-font-face-generator": "0.0.8",
     "mime": "1.2.9"
   },

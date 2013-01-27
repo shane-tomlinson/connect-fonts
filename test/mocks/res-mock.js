@@ -4,15 +4,24 @@
 
 module.exports = function(options) {
   options = options || {};
-  var headers = {};
-
   return {
+    headers: {},
     setHeader: options.setHeader || function(header, value) {
-      headers[header] = value;
+      this.headers[header] = value;
     },
     getHeader: function(header) {
-      return headers[header];
+      return this.headers[header];
     },
+    header: function(header) {
+      return this.getHeader(header);
+    },
+    removeHeader: function(header) {
+      delete this.headers[header];
+    },
+    toString: function() {
+      return JSON.stringify(this.headers, null, 2);
+    },
+    write: function() {},
     send: options.send || function() {},
     end: options.end || function() {}
   };

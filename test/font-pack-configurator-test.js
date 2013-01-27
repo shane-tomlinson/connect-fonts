@@ -3,8 +3,8 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 var path            = require('path'),
-    configurator    = require('../lib/font-pack-configurator'),
     nodeunit        = require('nodeunit'),
+    configurator    = require('../lib/font-pack-configurator'),
     pack_config     = require('./sample-config/font-pack-config');
 
 exports.font_pack_configurator = nodeunit.testCase({
@@ -24,10 +24,21 @@ exports.font_pack_configurator = nodeunit.testCase({
     test.equal(fontConfig.fontStyle, "normal");
     test.equal(fontConfig.fontWeight, "400");
 
-    test.equal(fontConfig.root, path.join(__dirname, "/sample-data/"));
+    test.equal(fontConfig.root, path.join(__dirname, "sample-data/"));
 
-    // all 6 fonts in config, 2 local, two remote.
+    // 6 fonts in config, 2 local, 4 remote.
+    // four remotes are svg, woff, truetype and embedded-opentype
     test.equal(fontConfig.formats.length, 6);
+
+    // each of the four remote fonts should have three locale's specified for
+    // 12 paths.
+    test.equal(Object.keys(fontConfig.urlToPath).length, 12);
+
+    // check the paths to make sure they match what is expected.
+    for (var url in fontConfig.urlToPath) {
+      var fontPath = fontConfig.urlToPath[url];
+      test.equal(fontPath, fontConfig.root + url.replace('/fonts/', ''));
+    }
 
     fontConfig.formats.forEach(function(format) {
       if (format.type === "local") {
@@ -47,7 +58,6 @@ exports.font_pack_configurator = nodeunit.testCase({
       }
     });
 
-    console.log(JSON.stringify(fontConfig, null, 2));
     test.done();
   }
 });

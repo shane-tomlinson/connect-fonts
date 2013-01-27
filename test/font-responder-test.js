@@ -5,6 +5,7 @@
 var path            = require('path'),
     fs              = require('fs'),
     font_responder  = require('../lib/font-responder'),
+    configurator    = require('../lib/font-pack-configurator'),
     pack_config     = require('./sample-config/font-pack-config'),
     nodeunit        = require('nodeunit'),
     ReqMock         = require('./mocks/req-mock'),
@@ -28,12 +29,10 @@ function testFontAvailable(url, contentType, test) {
 
 exports['font-responder-test'] = nodeunit.testCase({
   setUp: function (cb) {
-    var config = {
-      fonts: {
-        "opensans-regular": pack_config
-      }
-    };
-    font_responder.setup(config);
+    var config = configurator(pack_config);
+    font_responder.setup({
+      urlToPaths: config["opensans-regular"].urlToPath
+    });
     cb();
   },
   tearDown: function (cb) {
@@ -87,11 +86,7 @@ exports['font-responder-test'] = nodeunit.testCase({
 
   'ttf: recognized font, font file available - send the file': function(test) {
     testFontAvailable("/fonts/en/opensans-regular.ttf", "application/x-font-ttf", test);
-  },
-
-  'valid font with cachified URL - send the file': function(test) {
-    testFontAvailable("/v/afdc1252/fonts/en/opensans-regular.woff", "application/x-font-woff", test);
-  },
+  }
 
 });
 
