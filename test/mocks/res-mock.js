@@ -23,7 +23,16 @@ module.exports = function(options) {
           JSON.stringify(this._headers, null, 2);
     },
     write: function() {},
-    send: options.send || function() {},
+    send: options.send || function(data, statusCode) {
+      this.data = data;
+      this.statusCode = statusCode;
+    },
+    getData: function() {
+      return this.data;
+    },
+    getStatusCode: function() {
+      return this.statusCode;
+    },
     end: options.end || function() {}
   };
 };

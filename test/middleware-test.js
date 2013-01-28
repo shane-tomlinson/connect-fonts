@@ -12,7 +12,8 @@ var fs              = require('fs'),
 var mw;
 
 function getUA(ua) {
-  return typeof ua === "undefined" ? "Firefox" : ua;
+  return typeof ua === "undefined" ?
+                "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8; rv:21.0) Gecko/20130125 Firefox/21.0" : ua;
 }
 
 function testCSSServed(test, method, url, ua, cb) {
@@ -23,11 +24,9 @@ function testCSSServed(test, method, url, ua, cb) {
   });
 
   var res = new ResMock({
-    send: function(data, code) {
-      test.equal(this.getHeader('Content-Type'), 'text/css; charset=utf8');
-      test.equal(code, 200, '200 success response expected');
-    },
     end: function() {
+      test.equal(this.getHeader('Content-Type'), 'text/css; charset=utf8');
+      test.equal(this.getStatusCode(), 200, '200 success response expected');
       cb(res);
     }
   });
@@ -80,6 +79,7 @@ exports.middleware_functioning = nodeunit.testCase({
     testCSSServed(test, 'GET', '/en/opensans-regular/fonts.css', undefined, function(res) {
       test.ok(!res.getHeader("Cache-Control"), "Cache-Control header is not set");
       test.ok(!res.getHeader("ETag"), "ETag header is not set");
+      test.ok(res.getData().indexOf("/fonts/en/opensans-regular.woff") > -1);
       test.done();
     });
   },
@@ -90,8 +90,12 @@ exports.middleware_functioning = nodeunit.testCase({
     });
   },
 
-  'Cache-Control headers are set with cache-control option': function(test) {
+  'cache-control: true causes Cache-Control headers to be set and cachified font URLs': function(test) {
+    setup({"cache-control" : true });
     testCSSServed(test, 'GET', '/f/8abc2feaab/en/opensans-regular/fonts.css', undefined, function(res) {
+      // make sure the font URLs are cachified
+      test.ok(/\/f\/[a-f0-9]{10}\/fonts\/en\/opensans-regular.woff/g.test(res.getData()));
+
       test.ok(res.getHeader("Cache-Control"), "Cache-Control header is set");
       test.done();
     }, false, true);
