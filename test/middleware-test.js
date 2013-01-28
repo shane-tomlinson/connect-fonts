@@ -62,7 +62,8 @@ function setup(config) {
   mw = middleware.setup({
     fonts: [ pack_config ],
     etags: config.etags || false,
-    "cache-control": config["cache-control"] || false
+    "cache-control": config["cache-control"] || false,
+    "allow-origin": "*"
   });
 }
 

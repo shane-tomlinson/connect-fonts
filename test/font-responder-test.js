@@ -2,22 +2,24 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-var path            = require('path'),
-    fs              = require('fs'),
-    font_responder  = require('../lib/font-responder'),
-    configurator    = require('../lib/font-pack-configurator'),
-    pack_config     = require('./sample-config/font-pack-config'),
-    nodeunit        = require('nodeunit'),
-    ReqMock         = require('./mocks/req-mock'),
-    ResMock         = require('./mocks/res-mock');
+const path            = require('path'),
+      fs              = require('fs'),
+      font_responder  = require('../lib/font-responder'),
+      configurator    = require('../lib/font-pack-configurator'),
+      pack_config     = require('./sample-config/font-pack-config'),
+      nodeunit        = require('nodeunit'),
+      ReqMock         = require('./mocks/req-mock'),
+      ResMock         = require('./mocks/res-mock');
 
-function testFontAvailable(url, contentType, test) {
+const TEST_DOMAIN   = "http://testdomain.com";
+
+function testFontAvailable(url, contentType, test, done) {
   var req = new ReqMock({
     url: url
   });
   var res = new ResMock({
     end: function() {
-      test.equal(res.getHeader("Content-Type"), contentType + "; charset=utf8");
+      if (done) return done(this);
       test.done();
     }
   });
@@ -31,7 +33,15 @@ exports['font-responder-test'] = nodeunit.testCase({
   setUp: function (cb) {
     var config = configurator(pack_config);
     font_responder.setup({
-      urlToPaths: config["opensans-regular"].urlToPath
+      urlToPaths: config["opensans-regular"].urlToPath,
+      allowOrigin: TEST_DOMAIN,
+      send: function(req, fontPath) {
+        return {
+          pipe: function(res) {
+            res.end();
+          }
+        };
+      }
     });
     cb();
   },
@@ -73,7 +83,11 @@ exports['font-responder-test'] = nodeunit.testCase({
   },
 
   'woff: recognized font, font file available - send the file': function(test) {
-    testFontAvailable("/fonts/en/opensans-regular.woff", "application/x-font-woff", test);
+    testFontAvailable("/fonts/en/opensans-regular.woff", "application/x-font-woff", test, function(res) {
+      test.equal(res.getHeader("Access-Control-Allow-Origin"),
+        TEST_DOMAIN);
+      test.done();
+    });
   },
 
   'svg: recognized font, font file available - send the file': function(test) {
