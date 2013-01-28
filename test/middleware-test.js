@@ -60,8 +60,6 @@ function setup(config) {
 
   mw = middleware.setup({
     fonts: [ pack_config ],
-    etags: config.etags || false,
-    "cache-control": config["cache-control"] || false,
     "allow-origin": "*"
   });
 }
@@ -77,72 +75,9 @@ exports.middleware_functioning = nodeunit.testCase({
 
   'serve fonts.css for GET /en/opensans-regular/fonts.css, no caching headers set': function(test) {
     testCSSServed(test, 'GET', '/en/opensans-regular/fonts.css', undefined, function(res) {
-      test.ok(!res.getHeader("Cache-Control"), "Cache-Control header is not set");
-      test.ok(!res.getHeader("ETag"), "ETag header is not set");
       test.ok(res.getData().indexOf("/fonts/en/opensans-regular.woff") > -1);
       test.done();
     });
-  },
-
-  'serve fonts.css for GET /random_hash/en/opensans-regular/fonts.css, check to make sure cache controls can be busted with a string prepended to URL': function(test) {
-    testCSSServed(test, 'GET', '/random_hash/en/opensans-regular/fonts.css', undefined, function(res) {
-      test.done();
-    });
-  },
-
-  'cache-control: true causes Cache-Control headers to be set and cachified font URLs': function(test) {
-    setup({"cache-control" : true });
-    testCSSServed(test, 'GET', '/f/8abc2feaab/en/opensans-regular/fonts.css', undefined, function(res) {
-      // make sure the font URLs are cachified
-      test.ok(/\/f\/[a-f0-9]{10}\/fonts\/en\/opensans-regular.woff/g.test(res.getData()));
-
-      test.ok(res.getHeader("Cache-Control"), "Cache-Control header is set");
-      test.done();
-    }, false, true);
-  },
-
-  'ETags are set/checked with etags option': function(test) {
-    setup({ etags: true });
-    testCSSServed(test, 'GET', '/en/opensans-regular/fonts.css', undefined, function(generateEtagResponse) {
-      // because of the way that etagify works, the first response will not have
-      // an etag, but one will be generated for the second response.
-      var req = new ReqMock({
-        method: 'GET',
-        url: '/en/opensans-regular/fonts.css',
-        "user-agent": getUA(),
-      });
-
-      // the second response will have an etag.
-      var eTaggedResponse = new ResMock({
-        end: function() {
-          test.ok(this.getHeader("ETag"), "ETag header is set");
-
-          var req = new ReqMock({
-            method: 'GET',
-            url: '/en/opensans-regular/fonts.css',
-            "user-agent": getUA(),
-            "if-none-match": this.getHeader("ETag")
-          });
-
-          // finally, this last response should be 304'd 'cause etags kick in.
-          var threeOhFouredResponse = new ResMock({
-            end: function() {
-              test.equal(this.statusCode, 304,
-                  "304 not-changed response expected");
-              test.done();
-            }
-          });
-
-          mw(req, threeOhFouredResponse, function() {
-            test.equal(false, "the next function should not be called");
-          });
-        }
-      });
-
-      mw(req, eTaggedResponse, function() {
-        test.equal(false, "the next function should not be called");
-      });
-    }, true);
   },
 
   'do not serve fonts.css for POST /en/opensans-regular/fonts.css': function(test) {
