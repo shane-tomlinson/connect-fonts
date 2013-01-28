@@ -60,7 +60,7 @@ function setup(config) {
 
   mw = middleware.setup({
     fonts: [ pack_config ],
-    "allow-origin": "*"
+    allow_origin: "*"
   });
 }
 

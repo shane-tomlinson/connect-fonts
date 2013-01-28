@@ -33,8 +33,8 @@ exports['font-responder-test'] = nodeunit.testCase({
   setUp: function (cb) {
     var config = configurator(pack_config);
     font_responder.setup({
-      urlToPaths: config["opensans-regular"].urlToPath,
-      allowOrigin: TEST_DOMAIN,
+      url_to_paths: config["opensans-regular"].urlToPaths,
+      allow_origin: TEST_DOMAIN,
       send: function(req, fontPath) {
         return {
           pipe: function(res) {

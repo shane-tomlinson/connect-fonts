@@ -32,11 +32,11 @@ exports.font_pack_configurator = nodeunit.testCase({
 
     // each of the four remote fonts should have three locale's specified for
     // 12 paths.
-    test.equal(Object.keys(fontConfig.urlToPath).length, 12);
+    test.equal(Object.keys(fontConfig.urlToPaths).length, 12);
 
     // check the paths to make sure they match what is expected.
-    for (var url in fontConfig.urlToPath) {
-      var fontPath = fontConfig.urlToPath[url];
+    for (var url in fontConfig.urlToPaths) {
+      var fontPath = fontConfig.urlToPaths[url];
       test.equal(fontPath, fontConfig.root + url.replace('/fonts/', ''));
     }
 
