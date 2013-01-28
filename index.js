@@ -1,1 +1,1 @@
-module.exports = require('./lib/font-middleware');
+module.exports = require('./lib/middleware');
