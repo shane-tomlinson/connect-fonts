@@ -1,7 +1,6 @@
 # connect-fonts
 
-Middleware that serves locale and browser specific font CSS. Useful to serve
-region specific font files to avoid font-bloat.
+Middleware to take care of all your font needs.
 
 The middleware looks for requests (expressed in Express terminology):
 ```
@@ -10,7 +9,7 @@ The middleware looks for requests (expressed in Express terminology):
 
 An example of a match is:
 ```
-/en/OpenSansRegular,OpenSansItalics/fonts.css
+/en/opensans-regular,opensans-italics/fonts.css
 ```
 
 When this route is matched, connect-fonts will generate a CSS response with @font-face declarations that are tailored to the locale and browser.
@@ -18,20 +17,20 @@ When this route is matched, connect-fonts will generate a CSS response with @fon
 ## Usage
 1. Include connect-fonts in a node module.
 ```
-const font_middleware = require("connect-fonts");
+    const font_middleware = require("connect-fonts");
 ```
 
 2. Include the font packs that you want to serve.
 ```
-const opensans = require("connect-fonts-opensans");
+    const opensans = require("connect-fonts-opensans");
 ```
 
 3. Add a middleware by calling the `setup` function.
 ```
-app.use(font_middleware.setup({
-  fonts: [ opensans ],
-  allow_origin: "https://exampledomain/com"
-}));
+    app.use(font_middleware.setup({
+      fonts: [ opensans ],
+      allow_origin: "https://exampledomain.com"
+    }));
 ```
 
 `fonts` is an array of font packs.
@@ -51,10 +50,11 @@ Once the middleware setup function is called, a map of URLs=>paths can be retrei
 * @shane_tomlinson
 
 ## Getting involved:
-Additional font packs would be extremely useful. See connect-fonts-opensans for
-an example.
+MOAR font packs! See
+[connect-fonts-opensans](https://github.com/shane-tomlinson/connect-fonts-opensans) for an example.
 
-I am happy to review submissions!
+Any updates to connect-fonts are appreciated. All submissions will be reviewed
+and considered for merge.
 
 ## License:
 This software is available under version 2.0 of the MPL:
