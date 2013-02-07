@@ -34,7 +34,7 @@ When this route is matched, connect-fonts will generate a CSS response with @fon
 ```
 
 `fonts` is an array of font packs.
-`allow_origin` is the origin to set in the Allow-Origin-Access-Control header
+`allow_origin` is the origin to set in the Access-Control-Allow-Origin header
 
 ## Advanced Usage
 Once the middleware setup function is called, a map of URLs=>paths can be retreived using font_middleware.urlToPaths.
