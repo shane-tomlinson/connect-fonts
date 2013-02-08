@@ -36,6 +36,19 @@ When this route is matched, connect-fonts will generate a CSS response with @fon
 `fonts` is an array of font packs.
 `allow_origin` is the origin to set in the Access-Control-Allow-Origin header
 
+4. Add a link tag to include the font CSS.
+```
+    <link href="/en/opensans-regular/fonts.css" type="text/css" rel="stylesheet"/ >
+```
+
+5. Set your CSS up to use the new font by using the correct font-family.
+```
+   body {
+     font-family: 'Open Sans', 'sans-serif', 'serif';
+   }
+```
+
+
 ## Advanced Usage
 Once the middleware setup function is called, a map of URLs=>paths can be retreived using font_middleware.urlToPaths.
 
