@@ -2,10 +2,11 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-var path            = require('path'),
-    nodeunit        = require('nodeunit'),
-    configurator    = require('../lib/font-pack-configurator'),
-    pack_config     = require('./sample-config/font-pack-config');
+var path                    = require('path'),
+    nodeunit                = require('nodeunit'),
+    configurator            = require('../lib/font-pack-configurator'),
+    fonts_with_default      = require('./sample-config/fonts-with-default'),
+    fonts_without_default   = require('./sample-config/fonts-without-default');
 
 exports.font_pack_configurator = nodeunit.testCase({
   setUp: function (cb) {
@@ -16,7 +17,7 @@ exports.font_pack_configurator = nodeunit.testCase({
   },
 
   'get font pack configuration': function(test) {
-    var config = configurator(pack_config);
+    var config = configurator(fonts_with_default);
     test.ok("opensans-regular" in config);
 
     var fontConfig = config["opensans-regular"];
@@ -24,7 +25,7 @@ exports.font_pack_configurator = nodeunit.testCase({
     test.equal(fontConfig.fontStyle, "normal");
     test.equal(fontConfig.fontWeight, "400");
 
-    test.equal(fontConfig.root, path.join(__dirname, "sample-data/"));
+    test.equal(fontConfig.root, path.join(__dirname, "sample-data", "fonts-with-default", "/"));
 
     // 6 fonts in config, 2 local, 4 remote.
     // four remotes are svg, woff, truetype and embedded-opentype

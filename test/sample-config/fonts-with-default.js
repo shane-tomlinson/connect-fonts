@@ -5,7 +5,7 @@
 const path = require("path");
 
 module.exports = {
-  "root": path.join(__dirname, "..", "sample-data"),
+  "root": path.join(__dirname, "..", "sample-data", "fonts-with-default"),
 
   // where to find a locale's fonts in the fonts directory
   "locale-to-subdirs": {

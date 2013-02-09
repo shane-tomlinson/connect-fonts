@@ -7,7 +7,7 @@ var fs              = require('fs'),
     nodeunit        = require('nodeunit'),
     ReqMock         = require('./mocks/req-mock'),
     ResMock         = require('./mocks/res-mock'),
-    pack_config     = require('./sample-config/font-pack-config');
+    pack_config     = require('./sample-config/fonts-with-default');
 
 var mw;
 
