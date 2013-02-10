@@ -5,18 +5,17 @@
 const path = require("path");
 
 module.exports = {
-  "root": path.join(__dirname, "..", "sample-data", "fonts-with-default"),
+  "root": path.join(__dirname, "fonts"),
 
   // where to find a locale's fonts in the fonts directory
   "locale-to-subdirs": {
-    "en": "en",
-    "it-ch": "default",
-    "ru": "cyrillic"
   },
 
   // enabled font types.
   //
   // valid types are eot, woff, ttf, svg
+  //
+  // the ttf font is missing from the directory, causing an error to be thrown.
   "enabled-types": [ "eot", "woff", "ttf", "svg" ],
 
   // The fonts. The name of the font must be the same as the font

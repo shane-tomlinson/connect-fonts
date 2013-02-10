@@ -5,8 +5,11 @@
 var path                    = require('path'),
     nodeunit                = require('nodeunit'),
     configurator            = require('../lib/font-pack-configurator'),
-    fonts_with_default      = require('./sample-config/fonts-with-default'),
-    fonts_without_default   = require('./sample-config/fonts-without-default');
+    pack_with_default       = require('./sample-font-packs/fonts-with-default/index'),
+    pack_with_default_in_locale_to_subdirs
+                            = require('./sample-font-packs/fonts-with-default-in-locale-to-subdirs/index'),
+    pack_without_default    = require('./sample-font-packs/fonts-without-default/index'),
+    pack_missing_font       = require('./sample-font-packs/fonts-missing-font/index');
 
 exports.font_pack_configurator = nodeunit.testCase({
   setUp: function (cb) {
@@ -16,8 +19,8 @@ exports.font_pack_configurator = nodeunit.testCase({
     cb();
   },
 
-  'get font pack configuration': function(test) {
-    var config = configurator(fonts_with_default);
+  'get font pack configuration of valid font pack': function(test) {
+    var config = configurator(pack_with_default);
     test.ok("opensans-regular" in config);
 
     var fontConfig = config["opensans-regular"];
@@ -25,15 +28,15 @@ exports.font_pack_configurator = nodeunit.testCase({
     test.equal(fontConfig.fontStyle, "normal");
     test.equal(fontConfig.fontWeight, "400");
 
-    test.equal(fontConfig.root, path.join(__dirname, "sample-data", "fonts-with-default", "/"));
+    test.equal(fontConfig.root, path.join(__dirname, "sample-font-packs", "fonts-with-default", "fonts/"));
 
     // 6 fonts in config, 2 local, 4 remote.
     // four remotes are svg, woff, truetype and embedded-opentype
     test.equal(fontConfig.formats.length, 6);
 
-    // each of the four remote fonts should have three locale's specified for
-    // 12 paths.
-    test.equal(Object.keys(fontConfig.urlToPaths).length, 12);
+    // each of the four remote fonts should have two locale's specified for
+    // 8 paths.
+    test.equal(Object.keys(fontConfig.urlToPaths).length, 8);
 
     // check the paths to make sure they match what is expected.
     for (var url in fontConfig.urlToPaths) {
@@ -46,7 +49,6 @@ exports.font_pack_configurator = nodeunit.testCase({
         test.ok(format.url === "Open Sans" || format.url === "OpenSans");
       }
       else {
-        test.ok("cyrillic" in format.url);
         test.ok("default" in format.url);
         test.ok("en" in format.url);
 
@@ -54,11 +56,50 @@ exports.font_pack_configurator = nodeunit.testCase({
                     .indexOf(format.type) > -1);
 
         // check that the format of the URL is good
-        test.ok(format.url.cyrillic.indexOf(path.join(
-            "/fonts/cyrillic", format, "opensans-regular")) === 0);
+        test.ok(format.url.en.indexOf(path.join(
+            "/fonts/en", format, "opensans-regular")) === 0);
       }
     });
 
+    test.done();
+  },
+
+  'no error thrown if font pack has neither a default directory nor a default specified in locale-to-subdirs': function(test) {
+    var err;
+
+    try {
+      var config = configurator(pack_with_default_in_locale_to_subdirs);
+    } catch(e) {
+      err = e;
+    }
+
+    test.ok(!err);
+    test.done();
+  },
+
+  'error thrown if font pack has neither a default directory nor a default specified in locale-to-subdirs': function(test) {
+    var err;
+
+    try {
+      var config = configurator(pack_without_default);
+    } catch(e) {
+      err = e;
+    }
+
+    test.ok(err);
+    test.done();
+  },
+
+  'error thrown if a font file is missing': function(test) {
+    var err;
+
+    try {
+      var config = configurator(pack_missing_font);
+    } catch(e) {
+      err = e;
+    }
+
+    test.ok(err);
     test.done();
   }
 });

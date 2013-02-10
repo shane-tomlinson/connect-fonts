@@ -5,11 +5,10 @@
 const path = require("path");
 
 module.exports = {
-  "root": path.join(__dirname, "..", "sample-data", "fonts-without-default"),
+  "root": path.join(__dirname, "fonts"),
 
   // where to find a locale's fonts in the fonts directory
   "locale-to-subdirs": {
-    "ru": "cyrillic"
   },
 
   // enabled font types.
