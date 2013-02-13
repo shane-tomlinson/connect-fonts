@@ -60,11 +60,12 @@ function setup(config) {
 
   mw = middleware.setup({
     fonts: [ pack_config ],
-    allow_origin: "*"
+    allow_origin: "*",
+    ua: config.ua
   });
 }
 
-exports.middleware_functioning = nodeunit.testCase({
+exports.no_ua_specified_in_config = nodeunit.testCase({
   setUp: function (cb) {
     setup();
     cb();
@@ -97,3 +98,22 @@ exports.middleware_functioning = nodeunit.testCase({
   }
 });
 
+exports.specify_ua_in_config = nodeunit.testCase({
+  setUp: function (cb) {
+    setup({ ua: 'all' });
+    cb();
+  },
+  tearDown: function (cb) {
+    cb();
+  },
+
+  'serve fonts even if headers["user-agent"] is not specified': function(test) {
+    testCSSServed(test, 'GET', '/en/opensans-regular/fonts.css', undefined, function(res) {
+      test.ok(res.getData().indexOf("/fonts/en/opensans-regular.woff") > -1);
+      test.ok(res.getData().indexOf("/fonts/en/opensans-regular.eot") > -1);
+      test.ok(res.getData().indexOf("/fonts/en/opensans-regular.svg") > -1);
+      test.ok(res.getData().indexOf("/fonts/en/opensans-regular.ttf") > -1);
+      test.done();
+    });
+  }
+});

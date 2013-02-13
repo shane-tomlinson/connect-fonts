@@ -29,12 +29,14 @@ When this route is matched, connect-fonts will generate a CSS response with @fon
 ```
     app.use(font_middleware.setup({
       fonts: [ opensans ],
-      allow_origin: "https://exampledomain.com"
+      allow_origin: "https://exampledomain.com",
+      ua: "all"
     }));
 ```
 
 `fonts` is an array of font packs.
 `allow_origin` is the origin to set in the Access-Control-Allow-Origin header
+`ua` is to force a user-agent. "all" means serve up all font types to all users. If not specified, the user's user-agent header will be used to send the user only the fonts that their user-agent support.
 
 4. Add a link tag to include the font CSS.
 ```
