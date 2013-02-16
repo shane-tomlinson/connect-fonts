@@ -15,6 +15,8 @@ if (!packConfigPath) {
   process.exit(1);
 }
 
+packConfigPath = path.join(process.cwd(), packConfigPath);
+
 var packConfig = require(packConfigPath);
 try {
   configurator(packConfig);
