@@ -46,6 +46,7 @@ exports.css_responder = nodeunit.testCase({
 
     var res = new ResMock({
       end: function() {
+        console.log("called?");
         test.equal(this.getHeader('Content-Type'), 'text/css; charset=utf8');
         test.equal(this.getStatusCode(), 200, '200 success response expected');
         test.done();

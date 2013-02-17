@@ -6,8 +6,9 @@ module.exports = function(options) {
   options = options || {};
   return {
     _headers: {},
-    setHeader: options.setHeader || function(header, value) {
+    setHeader: function(header, value) {
       this._headers[header.toLowerCase()] = value;
+      if (options.setHeader) options.setHeader.call(this, header, value);
     },
     getHeader: function(header) {
       return this._headers[header.toLowerCase()];
@@ -23,6 +24,12 @@ module.exports = function(options) {
           JSON.stringify(this._headers, null, 2);
     },
     write: function() {},
+    writeHead: function(statusCode, headers) {
+      this.statusCode = statusCode;
+      for (var key in headers) {
+        this.setHeader(key, headers[key]);
+      }
+    },
     send: options.send || function(data, statusCode) {
       this.data = data;
       this.statusCode = statusCode;
@@ -33,7 +40,11 @@ module.exports = function(options) {
     getStatusCode: function() {
       return this.statusCode;
     },
-    end: options.end || function() {}
+    end: function(data, encoding) {
+      this.data = data;
+      this.encoding = encoding;
+      if (options.end) options.end.call(this, data, encoding);
+    }
   };
 };
 

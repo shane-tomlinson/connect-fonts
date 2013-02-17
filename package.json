@@ -11,9 +11,9 @@
   "bugs": {
     "url": "https://github.com/shane-tomlinson/connect-fonts/issues"
   },
-  "version": "0.0.9-alpha6",
+  "version": "0.0.9-alpha7",
   "engines": {
-    "node": ">= 0.4.7"
+    "node": ">= 0.6.2"
   },
   "main": "index",
   "dependencies": {
