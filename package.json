@@ -11,18 +11,22 @@
   "bugs": {
     "url": "https://github.com/shane-tomlinson/connect-fonts/issues"
   },
-  "version": "0.0.9-alpha7",
+  "version": "0.0.9-alpha8",
   "engines": {
     "node": ">= 0.6.2"
   },
   "main": "index",
   "dependencies": {
-    "node-font-face-generator": "0.0.9",
+    "node-font-face-generator": "0.0.10",
     "mime": "1.2.9",
     "send": "0.1.0"
   },
   "devDependencies": {
-    "nodeunit": ">=0.6.4"
+    "nodeunit": "0.7.4",
+    "optimist": "0.3.5",
+    "mkdirp": "0.3.4",
+    "tmp": "0.0.16",
+    "fs-extra": "0.5.0"
   },
   "scripts": {
     "test": "nodeunit test"
