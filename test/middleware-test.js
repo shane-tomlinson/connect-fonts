@@ -81,6 +81,34 @@ exports.no_ua_specified_in_config = nodeunit.testCase({
     });
   },
 
+  'serve fonts.css for GET /af/opensans-regular/fonts.css - use font alias from locale-to-subdirs': function(test) {
+    testCSSServed(test, 'GET', '/af/opensans-regular/fonts.css', undefined, function(res) {
+      test.ok(res.getData().indexOf("/fonts/en/opensans-regular.woff") > -1);
+      test.done();
+    });
+  },
+
+  'serve fonts.css for GET /es/opensans-regular/fonts.css - use latin fallback font defined by node-font-face-generator': function(test) {
+    testCSSServed(test, 'GET', '/es/opensans-regular/fonts.css', undefined, function(res) {
+      test.ok(res.getData().indexOf("/fonts/latin/opensans-regular.woff") > -1);
+      test.done();
+    });
+  },
+
+  'serve fonts.css for GET /ru/opensans-regular/fonts.css - use default fallback even though font defined by node-font-face-generator - cyrillic dir does not exist': function(test) {
+    testCSSServed(test, 'GET', '/ru/opensans-regular/fonts.css', undefined, function(res) {
+      test.ok(res.getData().indexOf("/fonts/default/opensans-regular.woff") > -1);
+      test.done();
+    });
+  },
+
+  'serve fonts.css for GET /cz/opensans-regular/fonts.css - use default font': function(test) {
+    testCSSServed(test, 'GET', '/cz/opensans-regular/fonts.css', undefined, function(res) {
+      test.ok(res.getData().indexOf("/fonts/default/opensans-regular.woff") > -1);
+      test.done();
+    });
+  },
+
   'do not serve fonts.css for POST /en/opensans-regular/fonts.css': function(test) {
     testCSSNotServed(test, 'POST', '/en/opensans-regular/fonts.css');
   },

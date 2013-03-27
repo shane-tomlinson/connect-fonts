@@ -9,6 +9,7 @@ module.exports = {
 
   // where to find a locale's fonts in the fonts directory
   "locale-to-subdirs": {
+    "af": "en"
   },
 
   // enabled font types.

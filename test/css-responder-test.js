@@ -37,6 +37,14 @@ exports.css_responder = nodeunit.testCase({
     });
   },
 
+  'get_css gets CSS for locale specified in locale-to-subdirs': function(test) {
+    css_responder.get_css("Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8; rv:21.0) Gecko/20130125 Firefox/21.0", "af", ["opensans-regular"], function(err, cssObj) {
+      test.equal(err, null);
+      test.ok(cssObj.css.indexOf("/fonts/en/opensans-regular.woff") > -1);
+      test.done();
+    });
+  },
+
   'font_css_responder responds to font.css requests': function(test) {
     var req = new ReqMock({
       url: '/en/opensans-regular/fonts.css',

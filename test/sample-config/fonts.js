@@ -2,6 +2,11 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
+/**
+ * This is a sample configuration in the format that is expected by
+ * node-font-face-generator. This is not the same config format as a font pack.
+ * To see examples of font pack configuration, see ../sample-font-packs/
+ */
 const path = require('path');
 
 module.exports = {
@@ -28,14 +33,17 @@ module.exports = {
         "type": "woff",
         "url": {
           "en": "/fonts/en/opensans-regular.woff",
-          "default": "/fonts/en/opensans-regular.woff"
+          "default": "/fonts/default/opensans-regular.woff"
         }
       },
       {
         "type": "truetype",
         "url": "/fonts/en/opensans-regular.ttf"
       }
-      ]
+    ],
+    "localeToUrlKeys": {
+      "af": "en"
+    }
   }
 };
 

@@ -34,9 +34,9 @@ exports.font_pack_configurator = nodeunit.testCase({
     // four remotes are svg, woff, truetype and embedded-opentype
     test.equal(fontConfig.formats.length, 6);
 
-    // each of the four remote fonts should have two locale's specified for
-    // 8 paths.
-    test.equal(Object.keys(fontConfig.urlToPaths).length, 8);
+    // each of the four remote fonts should have three locale's specified for
+    // 12 paths. (locales are en, latin, default)
+    test.equal(Object.keys(fontConfig.urlToPaths).length, 12);
 
     // check the paths to make sure they match what is expected.
     for (var url in fontConfig.urlToPaths) {
@@ -61,32 +61,6 @@ exports.font_pack_configurator = nodeunit.testCase({
       }
     });
 
-    test.done();
-  },
-
-  'no error thrown if font pack has neither a default directory nor a default specified in locale-to-subdirs': function(test) {
-    var err;
-
-    try {
-      var config = configurator(pack_with_default_in_locale_to_subdirs);
-    } catch(e) {
-      err = e;
-    }
-
-    test.ok(!err);
-    test.done();
-  },
-
-  'error thrown if font pack has neither a default directory nor a default specified in locale-to-subdirs': function(test) {
-    var err;
-
-    try {
-      var config = configurator(pack_without_default);
-    } catch(e) {
-      err = e;
-    }
-
-    test.ok(err);
     test.done();
   },
 
