@@ -13,6 +13,29 @@ const path            = require('path'),
 
 const TEST_DOMAIN   = "http://testdomain.com";
 
+// Set a 180 day cache.
+const MAX_AGE = 1000 * 60 * 60 * 24 * 180;
+
+function Send() {
+  return function (req, fontPath, options) {
+    options = options || {};
+    return {
+      pipe: function(res) {
+        // shove the maxage directly onto the result so that it can be
+        // checked later.
+        res.maxage = options.maxage;
+        res.end();
+      },
+      maxage: function(maxage) {
+        options.maxage = maxage;
+        return this;
+      }
+    };
+  };
+}
+
+var send;
+
 function testFontAvailable(url, contentType, test, done) {
   var req = new ReqMock({
     url: url
@@ -20,6 +43,9 @@ function testFontAvailable(url, contentType, test, done) {
   var res = new ResMock({
     end: function() {
       if (done) return done(this);
+
+      // Make sure Cache-Control headers are set.
+      test.equal(this.maxage, MAX_AGE);
       test.done();
     }
   });
@@ -32,19 +58,16 @@ function testFontAvailable(url, contentType, test, done) {
 exports['font-responder-test'] = nodeunit.testCase({
   setUp: function (cb) {
     var config = configurator(pack_config);
+    send = new Send();
     font_responder.setup({
       url_to_paths: config["opensans-regular"].urlToPaths,
       allow_origin: TEST_DOMAIN,
-      send: function(req, fontPath) {
-        return {
-          pipe: function(res) {
-            res.end();
-          }
-        };
-      }
+      send: send,
+      maxage: MAX_AGE
     });
     cb();
   },
+
   tearDown: function (cb) {
     cb();
   },

@@ -9,6 +9,9 @@ var fs              = require('fs'),
     ResMock         = require('./mocks/res-mock'),
     pack_config     = require('./sample-font-packs/fonts-with-default/index');
 
+// Set a 180 day cache.
+const MAX_AGE = 1000 * 60 * 60 * 24 * 180;
+
 var mw;
 
 function getUA(ua) {
@@ -61,7 +64,8 @@ function setup(config) {
   mw = middleware.setup({
     fonts: [ pack_config ],
     allow_origin: "*",
-    ua: config.ua
+    ua: config.ua,
+    maxage: MAX_AGE
   });
 }
 
