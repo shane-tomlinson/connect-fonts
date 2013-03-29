@@ -45,7 +45,7 @@ exports.css_responder = nodeunit.testCase({
     });
   },
 
-  'font_css_responder responds to font.css requests': function(test) {
+  'font_css_responder responds to font.css requests that specify a locale': function(test) {
     var req = new ReqMock({
       url: '/en/opensans-regular/fonts.css',
       method: 'GET',
@@ -57,6 +57,32 @@ exports.css_responder = nodeunit.testCase({
         console.log("called?");
         test.equal(this.getHeader('Content-Type'), 'text/css; charset=utf8');
         test.equal(this.getStatusCode(), 200, '200 success response expected');
+	test.ok(this.getData().indexOf("/en/opensans-regular.woff") > -1);
+        test.done();
+      }
+    });
+
+    css_responder.font_css_responder(req, res, function() {
+      // this should not be called.
+      test.ok(false);
+      test.done();
+    });
+  },
+
+  'font_css_responder responds to font.css requests that do not specify a locale- default locale used': function(test) {
+    var req = new ReqMock({
+      url: '/opensans-regular/fonts.css',
+      method: 'GET',
+      "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8; rv:21.0) Gecko/20130125 Firefox/21.0"
+    });
+
+    var res = new ResMock({
+      end: function() {
+        console.log("called?");
+        test.equal(this.getHeader('Content-Type'), 'text/css; charset=utf8');
+        test.equal(this.getStatusCode(), 200, '200 success response expected');
+	console.log(this.getData());
+	test.ok(this.getData().indexOf("/default/opensans-regular.woff") > -1);
         test.done();
       }
     });
