@@ -100,6 +100,10 @@ exports['font-responder-test'] = nodeunit.testCase({
 
   'ttf: recognized font, font file available - send the file': function(test) {
     testFontAvailable("/fonts/en/opensans-regular.ttf", "application/x-font-ttf", test);
+  },
+
+  'recognized font with ? on end - send the file': function(test) {
+    testFontAvailable("/fonts/en/opensans-regular.eot?", "application/vnd.ms-fontobject", test);
   }
 
 });
