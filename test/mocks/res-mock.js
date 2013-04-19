@@ -31,8 +31,8 @@ module.exports = function(options) {
       }
     },
     send: options.send || function(data, statusCode) {
-      this.data = data;
-      this.statusCode = statusCode;
+      if (data) this.data = data;
+      this.statusCode = statusCode || 200;
     },
     getData: function() {
       return this.data;
@@ -41,8 +41,9 @@ module.exports = function(options) {
       return this.statusCode;
     },
     end: function(data, encoding) {
-      this.data = data;
-      this.encoding = encoding;
+      if (data) this.data = data;
+      this.encoding = encoding || 'utf8';
+      if (!this.statusCode) this.statusCode = 200;
       if (options.end) options.end.call(this, data, encoding);
     }
   };

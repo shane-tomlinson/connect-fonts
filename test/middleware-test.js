@@ -7,6 +7,7 @@ var fs              = require('fs'),
     nodeunit        = require('nodeunit'),
     ReqMock         = require('./mocks/req-mock'),
     ResMock         = require('./mocks/res-mock'),
+    SendMock        = require('./mocks/send-mock'),
     pack_config     = require('./sample-font-packs/fonts-with-default/index');
 
 // Set a 180 day cache.
@@ -28,9 +29,8 @@ function testCSSServed(test, method, url, ua, cb) {
 
   var res = new ResMock({
     end: function() {
-      test.equal(this.getHeader('Content-Type'), 'text/css; charset=utf8');
       test.equal(this.getStatusCode(), 200, '200 success response expected');
-      cb(res);
+      cb(this);
     }
   });
 
@@ -65,7 +65,8 @@ function setup(config) {
     fonts: [ pack_config ],
     allow_origin: "*",
     ua: config.ua,
-    maxage: MAX_AGE
+    maxage: MAX_AGE,
+    send: new SendMock()
   });
 }
 

@@ -6,14 +6,20 @@ var path            = require('path'),
     nodeunit        = require('nodeunit'),
     ReqMock         = require('./mocks/req-mock'),
     ResMock         = require('./mocks/res-mock'),
+    SendMock        = require('./mocks/send-mock'),
     font_config     = require('./sample-config/fonts'),
     css_responder   = require('../lib/css-responder');
+
+// Set a 180 day cache.
+const MAX_AGE = 1000 * 60 * 60 * 24 * 180;
 
 exports.css_responder = nodeunit.testCase({
   setUp: function (cb) {
     css_responder.setup({
       fonts: font_config,
-      locale_to_url_keys: {}
+      locale_to_url_keys: {},
+      maxage: MAX_AGE,
+      send: new SendMock()
     });
     cb();
   },
@@ -54,10 +60,9 @@ exports.css_responder = nodeunit.testCase({
 
     var res = new ResMock({
       end: function() {
-        console.log("called?");
-        test.equal(this.getHeader('Content-Type'), 'text/css; charset=utf8');
-        test.equal(this.getStatusCode(), 200, '200 success response expected');
-	test.ok(this.getData().indexOf("/en/opensans-regular.woff") > -1);
+        test.ok(this.getData().indexOf("/en/opensans-regular.woff") > -1);
+        // Make sure Cache-Control headers are set.
+        test.equal(this.maxage, MAX_AGE);
         test.done();
       }
     });
@@ -78,11 +83,9 @@ exports.css_responder = nodeunit.testCase({
 
     var res = new ResMock({
       end: function() {
-        console.log("called?");
-        test.equal(this.getHeader('Content-Type'), 'text/css; charset=utf8');
-        test.equal(this.getStatusCode(), 200, '200 success response expected');
-	console.log(this.getData());
-	test.ok(this.getData().indexOf("/default/opensans-regular.woff") > -1);
+        test.ok(this.getData().indexOf("/default/opensans-regular.woff") > -1);
+        // Make sure Cache-Control headers are set.
+        test.equal(this.maxage, MAX_AGE);
         test.done();
       }
     });

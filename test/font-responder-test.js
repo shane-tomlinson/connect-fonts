@@ -9,30 +9,13 @@ const path            = require('path'),
       pack_config     = require('./sample-font-packs/fonts-with-default/index'),
       nodeunit        = require('nodeunit'),
       ReqMock         = require('./mocks/req-mock'),
-      ResMock         = require('./mocks/res-mock');
+      ResMock         = require('./mocks/res-mock'),
+      SendMock        = require('./mocks/send-mock');
 
 const TEST_DOMAIN   = "http://testdomain.com";
 
 // Set a 180 day cache.
 const MAX_AGE = 1000 * 60 * 60 * 24 * 180;
-
-function Send() {
-  return function (req, fontPath, options) {
-    options = options || {};
-    return {
-      pipe: function(res) {
-        // shove the maxage directly onto the result so that it can be
-        // checked later.
-        res.maxage = options.maxage;
-        res.end();
-      },
-      maxage: function(maxage) {
-        options.maxage = maxage;
-        return this;
-      }
-    };
-  };
-}
 
 var send;
 
@@ -58,7 +41,7 @@ function testFontAvailable(url, contentType, test, done) {
 exports['font-responder-test'] = nodeunit.testCase({
   setUp: function (cb) {
     var config = configurator(pack_config);
-    send = new Send();
+    send = new SendMock();
     font_responder.setup({
       url_to_paths: config["opensans-regular"].urlToPaths,
       allow_origin: TEST_DOMAIN,
