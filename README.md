@@ -139,8 +139,8 @@ npm install <font_pack_directory>
 * stomlinson@mozilla.com
 * set117@yahoo.com
 * https://shanetomlinson.com
-* http://github.com/stomlinson
 * http://github.com/shane-tomlinson
+* http://github.com/stomlinson
 * @shane_tomlinson
 
 ## Getting involved:
