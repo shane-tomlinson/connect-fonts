@@ -20,7 +20,9 @@
     "node-font-face-generator": "0.1.0-dev1",
     "mime": "1.2.9",
     "tmp": "0.0.16",
-    "send": "0.1.0"
+    "send": "0.1.0",
+    "oppressor": "0.0.1",
+    "filed": "0.1.0"
   },
   "devDependencies": {
     "nodeunit": "0.7.4",

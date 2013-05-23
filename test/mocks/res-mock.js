@@ -45,6 +45,9 @@ module.exports = function(options) {
       this.encoding = encoding || 'utf8';
       if (!this.statusCode) this.statusCode = 200;
       if (options.end) options.end.call(this, data, encoding);
+    },
+    on: function(msg, func) {
+      // message handler
     }
   };
 };
