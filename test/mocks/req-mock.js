@@ -18,7 +18,9 @@ module.exports = function(options) {
     },
     params: {},
     pipe: function(stream) {
-      if (stream.end && stream.end) stream.end();
+      if (stream.end && stream.end) {
+        stream.end();
+      }
       return this;
     }
   };

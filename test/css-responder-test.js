@@ -17,7 +17,8 @@ exports.css_responder = nodeunit.testCase({
     css_responder.setup({
       fonts: font_config,
       locale_to_url_keys: {},
-      maxage: MAX_AGE
+      maxage: MAX_AGE,
+      compress: true
     });
     cb();
   },
@@ -59,7 +60,7 @@ exports.css_responder = nodeunit.testCase({
     var res = new ResMock({
       end: function() {
         /*test.ok(this.getData().indexOf("/en/opensans-regular.woff") > -1);*/
-        /*test.equal(this.getHeader('Cache-Control'), 'public, max-age=' + MAX_AGE);*/
+        test.ok(this.getHeader('Cache-Control'));
         test.done();
       }
     });
@@ -82,7 +83,7 @@ exports.css_responder = nodeunit.testCase({
       end: function() {
         /*test.ok(this.getData().indexOf("/default/opensans-regular.woff") > -1);*/
         // Make sure Cache-Control headers are set.
-        /*test.equal(this.getHeader('Cache-Control'), 'public, max-age=' + MAX_AGE);*/
+        test.ok(this.getHeader('Cache-Control'));
         test.done();
       }
     });

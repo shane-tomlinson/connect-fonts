@@ -7,7 +7,6 @@ var fs              = require('fs'),
     nodeunit        = require('nodeunit'),
     ReqMock         = require('./mocks/req-mock'),
     ResMock         = require('./mocks/res-mock'),
-    SendMock        = require('./mocks/send-mock'),
     pack_config     = require('./sample-font-packs/fonts-with-default/index');
 
 // Set a 180 day cache.
@@ -66,7 +65,7 @@ function setup(config) {
     allow_origin: "*",
     ua: config.ua,
     maxage: MAX_AGE,
-    send: new SendMock()
+    compress: true
   });
 }
 

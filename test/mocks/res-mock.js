@@ -44,10 +44,24 @@ module.exports = function(options) {
       if (data) this.data = data;
       this.encoding = encoding || 'utf8';
       if (!this.statusCode) this.statusCode = 200;
+
+      // This is probably wrong, but fire the header message in case there is
+      // a handler.
+      this.fire('header');
       if (options.end) options.end.call(this, data, encoding);
     },
-    on: function(msg, func) {
-      // message handler
+    on: function(event, func) {
+      if (!this._handlers) this._handlers = {};
+      if (!this._handlers[event]) this._handlers[event] = [];
+      this._handlers[event].push(func);
+    },
+    fire: function(event) {
+      var args = [].splice.call(arguments, 1);
+      if (this._handlers && this._handlers[event]) {
+        this._handlers[event].forEach(function(handler) {
+          handler.apply(null, args);
+        });
+      }
     }
   };
 };
