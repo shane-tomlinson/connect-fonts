@@ -9,8 +9,7 @@ const path            = require('path'),
       pack_config     = require('./sample-font-packs/fonts-with-default/index'),
       nodeunit        = require('nodeunit'),
       ReqMock         = require('./mocks/req-mock'),
-      ResMock         = require('./mocks/res-mock'),
-      SendMock        = require('./mocks/send-mock');
+      ResMock         = require('./mocks/res-mock');
 
 const TEST_DOMAIN   = "http://testdomain.com";
 
@@ -28,7 +27,11 @@ function testFontAvailable(url, contentType, test, done) {
       if (done) return done(this);
 
       // Make sure Cache-Control headers are set.
-      test.equal(this.maxage, MAX_AGE);
+      test.ok(!!this.getHeader('Cache-Control'));
+
+      // contentType is set by filed. Since we are not actually streaming, we
+      // don't know what the font type is.
+
       test.done();
     }
   });
@@ -41,12 +44,11 @@ function testFontAvailable(url, contentType, test, done) {
 exports['font-responder-test'] = nodeunit.testCase({
   setUp: function (cb) {
     var config = configurator(pack_config);
-    send = new SendMock();
     font_responder.setup({
       url_to_paths: config["opensans-regular"].urlToPaths,
       allow_origin: TEST_DOMAIN,
-      send: send,
-      maxage: MAX_AGE
+      maxage: MAX_AGE,
+      compress: true
     });
     cb();
   },
@@ -91,7 +93,7 @@ exports['font-responder-test'] = nodeunit.testCase({
   'woff: recognized font, font file available - send the file': function(test) {
     testFontAvailable("/fonts/en/opensans-regular.woff", "application/x-font-woff", test, function(res) {
       test.equal(res.getHeader("Access-Control-Allow-Origin"),
-        TEST_DOMAIN);
+          TEST_DOMAIN);
       test.done();
     });
   },

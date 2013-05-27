@@ -38,6 +38,7 @@ const opensans = require("connect-fonts-opensans");
 `allow_origin` - origin to set in the Access-Control-Allow-Origin header
 `ua` - force a user-agent. "all" means serve up all font types to all users. If not specified, the user's user-agent header will be used to send the user only the fonts that their user-agent support.
 `maxage` - provide a max-age in milliseconds for http caching, defaults to 0.
+`compress` - Whether to compress the CSS/font output
 
 4. Add a link tag to include the font CSS.
 To serve a default, non-locale specific font, include a CSS link that contains the name of the font:

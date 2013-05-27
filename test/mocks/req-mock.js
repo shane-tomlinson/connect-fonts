@@ -9,17 +9,23 @@ module.exports = function(options) {
     'if-none-match': options['if-none-match']
   };
 
-  var config = {
+  var ReqMock = {
     method: options.method || 'GET',
     url: options.url || '/',
     headers: headers,
     getHeader: function(header) {
       return headers[header.toLowerCase()];
     },
-    params: {}
+    params: {},
+    pipe: function(stream) {
+      if (stream.end && stream.end) {
+        stream.end();
+      }
+      return this;
+    }
   };
 
-  return config;
+  return ReqMock;
 };
 
 
