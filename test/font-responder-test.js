@@ -28,6 +28,10 @@ function testFontAvailable(url, contentType, test, done) {
 
       // Make sure Cache-Control headers are set.
       test.ok(!!this.getHeader('Cache-Control'));
+
+      // contentType is set by filed. Since we are not actually streaming, we
+      // don't know what the font type is.
+
       test.done();
     }
   });
