@@ -1,0 +1,19 @@
+{
+  "Author": "Shane Tomlinson <shane@shanetomlinson.com> (https://shanetomlinson.com)",
+  "name": "connect-fonts-shadows-into-light",
+  "description": "ShadowsIntoLight font set for connect-fonts",
+  "keywords": ["font", "font-face", "CSS", "ShadowsIntoLight", "connect-fonts"],
+  "homepage": "https://github.com/shane-tomlinson/connect-fonts-shadows-into-light",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/shane-tomlinson/connect-fonts-shadows-into-light.git"
+  },
+  "bugs": {
+    "url": "https://github.com/shane-tomlinson/connect-fonts-shadows-into-light/issues"
+  },
+  "version": "0.0.1",
+  "engines": {
+    "node": ">= 0.4.7"
+  },
+  "main": "index"
+}
