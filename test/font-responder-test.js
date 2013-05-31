@@ -92,8 +92,7 @@ exports['font-responder-test'] = nodeunit.testCase({
 
   'woff: recognized font, font file available - send the file': function(test) {
     testFontAvailable("/fonts/en/opensans-regular.woff", "application/x-font-woff", test, function(res) {
-      test.equal(res.getHeader("Access-Control-Allow-Origin"),
-          TEST_DOMAIN);
+      test.equal(res.getHeader("Access-Control-Allow-Origin"), TEST_DOMAIN);
       test.done();
     });
   },
