@@ -145,6 +145,7 @@ exports.specify_ua_in_config = nodeunit.testCase({
       test.ok(res.getData().indexOf("/fonts/en/opensans-regular.eot") > -1);
       test.ok(res.getData().indexOf("/fonts/en/opensans-regular.svg") > -1);
       test.ok(res.getData().indexOf("/fonts/en/opensans-regular.ttf") > -1);
+      test.ok(res.getData().indexOf("/fonts/en/opensans-regular.otf") > -1);
       */
       test.done();
     });
