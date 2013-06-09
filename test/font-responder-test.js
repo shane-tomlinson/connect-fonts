@@ -92,8 +92,7 @@ exports['font-responder-test'] = nodeunit.testCase({
 
   'woff: recognized font, font file available - send the file': function(test) {
     testFontAvailable("/fonts/en/opensans-regular.woff", "application/x-font-woff", test, function(res) {
-      test.equal(res.getHeader("Access-Control-Allow-Origin"),
-          TEST_DOMAIN);
+      test.equal(res.getHeader("Access-Control-Allow-Origin"), TEST_DOMAIN);
       test.done();
     });
   },
@@ -108,6 +107,10 @@ exports['font-responder-test'] = nodeunit.testCase({
 
   'ttf: recognized font, font file available - send the file': function(test) {
     testFontAvailable("/fonts/en/opensans-regular.ttf", "application/x-font-ttf", test);
+  },
+
+  'otf: recognized font, font file available - send the file': function(test) {
+    testFontAvailable("/fonts/en/opensans-regular.otf", "application/x-font-otf", test);
   },
 
   'recognized font with ? on end - send the file': function(test) {

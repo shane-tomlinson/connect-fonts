@@ -14,8 +14,8 @@ module.exports = {
 
   // enabled font types.
   //
-  // valid types are eot, woff, ttf, svg
-  "enabled-types": [ "eot", "woff", "ttf", "svg" ],
+  // valid types are eot, woff, otf, ttf, svg
+  "enabled-types": [ "eot", "woff", "otf", "ttf", "svg" ],
 
   // The fonts. The name of the font must be the same as the font
   // in the fonts directory.

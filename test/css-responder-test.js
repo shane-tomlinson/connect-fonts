@@ -14,16 +14,13 @@ const MAX_AGE = 1000 * 60 * 60 * 24 * 180;
 
 exports.css_responder = nodeunit.testCase({
   setUp: function (cb) {
+    css_responder.reset();
     css_responder.setup({
       fonts: font_config,
       locale_to_url_keys: {},
       maxage: MAX_AGE,
       compress: true
-    });
-    cb();
-  },
-  tearDown: function (cb) {
-    cb();
+    }, cb);
   },
 
   'generate_css generates CSS': function(test) {
@@ -93,6 +90,22 @@ exports.css_responder = nodeunit.testCase({
       test.ok(false);
       test.done();
     });
+  },
+
+  'registerFont throws error before setup has been called': function(test) {
+    css_responder.reset();
+    css_responder.registerFont("font_name", font_config, function(err) {
+      test.ok(err);
+      test.done();
+    });
+  },
+
+  'registerFont registers a font after setup has been called': function(test) {
+    css_responder.registerFont("font_name", font_config, function(err) {
+      test.ok(!err);
+      test.done();
+    });
   }
+
 });
 

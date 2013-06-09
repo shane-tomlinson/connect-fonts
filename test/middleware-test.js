@@ -7,7 +7,9 @@ var fs              = require('fs'),
     nodeunit        = require('nodeunit'),
     ReqMock         = require('./mocks/req-mock'),
     ResMock         = require('./mocks/res-mock'),
-    pack_config     = require('./sample-font-packs/fonts-with-default/index');
+    opensans_config = require('./sample-font-packs/fonts-with-default/index'),
+    shadows_into_light_config
+                    = require('./sample-font-packs/shadows-into-light/index');
 
 // Set a 180 day cache.
 const MAX_AGE = 1000 * 60 * 60 * 24 * 180;
@@ -57,26 +59,27 @@ function testCSSNotServed(test, method, url, ua) {
   });
 }
 
-function setup(config) {
+function setup(config, done) {
+  if (!done) {
+    done = config;
+  }
+
   config = config || {};
 
+  middleware.reset();
   mw = middleware.setup({
-    fonts: [ pack_config ],
+    fonts: [ opensans_config ],
     allow_origin: "*",
     ua: config.ua,
     maxage: MAX_AGE,
     compress: true
   });
+
+  done && done();
 }
 
 exports.no_ua_specified_in_config = nodeunit.testCase({
-  setUp: function (cb) {
-    setup();
-    cb();
-  },
-  tearDown: function (cb) {
-    cb();
-  },
+  setUp: setup,
 
   'serve fonts.css for GET /en/opensans-regular/fonts.css, no caching headers set': function(test) {
     testCSSServed(test, 'GET', '/en/opensans-regular/fonts.css', undefined, function(res) {
@@ -133,13 +136,7 @@ exports.no_ua_specified_in_config = nodeunit.testCase({
 });
 
 exports.specify_ua_in_config = nodeunit.testCase({
-  setUp: function (cb) {
-    setup({ ua: 'all' });
-    cb();
-  },
-  tearDown: function (cb) {
-    cb();
-  },
+  setUp: setup.bind(null, { ua: 'all' }),
 
   'serve fonts even if headers["user-agent"] is not specified': function(test) {
     testCSSServed(test, 'GET', '/en/opensans-regular/fonts.css', undefined, function(res) {
@@ -148,8 +145,40 @@ exports.specify_ua_in_config = nodeunit.testCase({
       test.ok(res.getData().indexOf("/fonts/en/opensans-regular.eot") > -1);
       test.ok(res.getData().indexOf("/fonts/en/opensans-regular.svg") > -1);
       test.ok(res.getData().indexOf("/fonts/en/opensans-regular.ttf") > -1);
+      test.ok(res.getData().indexOf("/fonts/en/opensans-regular.otf") > -1);
       */
       test.done();
     });
   }
 });
+
+exports.register_fontpack_before_setup = nodeunit.testCase({
+  setUp: function (cb) {
+    middleware.reset();
+    cb();
+  },
+
+  'register a new font before setup is called throws an error': function(test) {
+    var err;
+
+    middleware.registerFontPack(shadows_into_light_config, function(err) {
+      test.ok(err);
+      test.done();
+    });
+  }
+});
+
+exports.register_fontpack_after_setup = nodeunit.testCase({
+  setUp: setup.bind(null, { ua: 'all' }),
+
+  'add a new font, see if it is served': function(test) {
+    middleware.registerFontPack(shadows_into_light_config, function(err) {
+      test.ok(!err);
+
+      testCSSServed(test, 'GET', '/en/shadows-into-light/fonts.css', undefined, function(res) {
+        test.done();
+      });
+    });
+  }
+});
+
