@@ -1,5 +1,5 @@
 {
-  "Author": "Shane Tomlinson <shane@shanetomlinson.com> (https://shanetomlinson.com)",
+  "author": "Shane Tomlinson <shane@shanetomlinson.com> (https://shanetomlinson.com)",
   "name": "connect-fonts",
   "description": "A simple font middleware with the ability to serve distinct locale/browser fonts.",
   "keywords": ["font", "font-face", "CSS"],
@@ -11,6 +11,12 @@
   "bugs": {
     "url": "https://github.com/shane-tomlinson/connect-fonts/issues"
   },
+  "licenses": [
+    {
+      "type": "MPL 2.0",
+      "url": "http://mozilla.org/MPL/2.0/"
+    }
+  ],
   "version": "0.0.10",
   "engines": {
     "node": ">= 0.6.2"
