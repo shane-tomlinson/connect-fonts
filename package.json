@@ -1,8 +1,8 @@
 {
   "author": "Shane Tomlinson <shane@shanetomlinson.com> (https://shanetomlinson.com)",
   "name": "connect-fonts",
-  "description": "A simple font middleware with the ability to serve distinct locale/browser fonts.",
-  "keywords": ["font", "font-face", "CSS"],
+  "description": "Middleware to serve up web fonts.",
+  "keywords": ["font", "font-face", "CSS", "webfont", "typography"],
   "homepage": "https://github.com/shane-tomlinson/connect-fonts",
   "repository": {
     "type": "git",
@@ -17,7 +17,7 @@
       "url": "http://mozilla.org/MPL/2.0/"
     }
   ],
-  "version": "0.0.10",
+  "version": "0.0.11",
   "engines": {
     "node": ">= 0.6.2"
   },
