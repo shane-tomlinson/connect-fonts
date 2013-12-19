@@ -57,7 +57,7 @@ exports.font_pack_configurator = nodeunit.testCase({
 
         // check that the format of the URL is good
         test.ok(format.url.en.indexOf(path.join(
-            "/fonts/en", format, "opensans-regular")) === 0);
+            "fonts", "en", "opensans-regular")) > -1);
       }
     });
 

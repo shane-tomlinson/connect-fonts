@@ -109,3 +109,22 @@ exports.css_responder = nodeunit.testCase({
 
 });
 
+exports.css_responder_with_cdn = nodeunit.testCase({
+  setUp: function (cb) {
+    css_responder.reset();
+    css_responder.setup({
+      fonts: font_config,
+      host: 'https://cdn.testdomain.com',
+      locale_to_url_keys: {}
+    }, cb);
+  },
+
+  'generate_css generates CSS': function(test) {
+    css_responder.generate_css("Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8; rv:21.0) Gecko/20130125 Firefox/21.0", "en", ["opensans-regular"], function(err, cssObj) {
+      test.equal(err, null);
+      test.ok(cssObj.css.indexOf('https://cdn.testdomain.com/fonts/en/opensans-regular.woff') > -1);
+      test.done();
+    });
+  }
+});
+
