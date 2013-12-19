@@ -55,6 +55,20 @@ To serve a default, non-locale specific font, include a CSS link that contains t
 
 ## Advanced Usage
 
+### Fonts located on another domain (CDN)
+It is possible to specify a host where fonts are located. This is useful if font files are located on another domain.
+```js
+    app.use(font_middleware.setup({
+      fonts: [ opensans ],
+      host: "https://cdn.exampledomain.com",
+      allow_origin: "https://exampledomain.com",
+      ua: "all",
+      maxage: 180 * 24 * 60 * 60 * 1000   // 180 days
+    }));
+```
+
+
+
 ### Locale optimised fonts
 If a font pack contains locale optimised fonts, these can be requested by prepending
 the locale name before the font list in the fonts.css request.
