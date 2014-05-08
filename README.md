@@ -35,10 +35,10 @@ const opensans = require("connect-fonts-opensans");
     }));
 ```
 `fonts` - array of font packs.
-`allow_origin` - origin to set in the Access-Control-Allow-Origin header
-`ua` - force a user-agent. "all" means serve up all font types to all users. If not specified, the user's user-agent header will be used to send the user only the fonts that their user-agent support.
-`maxage` - provide a max-age in milliseconds for http caching, defaults to 0.
-`compress` - Whether to compress the CSS/font output
+`allow_origin` - optional - origin to set in the `Access-Control-Allow-Origin` header. Defaults to `undefined`.
+`ua` - optional - force a user-agent. "all" means serve up all font types to all users. If not specified, the user's user-agent header will be used to send the user only the fonts that their user-agent support. Defaults to `all`.
+`maxage` - optional - provide a max-age in milliseconds for http caching. Defaults to `0`.
+`compress` - optional - Whether to compress the CSS/font output. Defaults to `false`.
 
 4. Add a link tag to include the font CSS.
 To serve a default, non-locale specific font, include a CSS link that contains the name of the font:
@@ -81,12 +81,13 @@ the locale name before the font list in the fonts.css request.
 ### Programatically generate CSS for use in build steps
 One of the easiest ways to speed up your site is to minimize the number of resources that are requested. The @font-face CSS provided by fonts.css can be fetched programatically and concatinated with other site CSS during a build step.
 ```js
-// font_middleware.setup has already been called.
+var fontMiddleware = connect_fonts.setup(...);
+
 // `ua` - user agent. Use 'all' for a CSS bundle that is compatible with all browsers.
 // `lang` - language. generate_css can be called once for each served language, or
 //            "default" can be specified
 // `fonts` - array of font names - e.g. ["opensans-regular", "opensans-italics"]
-font_middleware.generate_css(ua, lang, fonts, function(err, css) {
+fontMiddleware.generate_css(ua, lang, fonts, function(err, css) {
   var css_output_path = path.join(output_dir, dep);
   var css_output_dir = path.dirname(css_output_path);
 
@@ -99,7 +100,7 @@ font_middleware.generate_css(ua, lang, fonts, function(err, css) {
 ```
 
 ### Direct access to font files
-Once the middleware setup function is called, a map of URLs=>paths can be retreived using font_middleware.urlToPaths. This information can be used in a build step for tools like [connect-cachify](https://github.com/mozilla/connect-cachify/) that need access to the font file to create an caching hash.
+Once connect fonts setup function is called, a map of URLs=>paths can be retreived using fontMiddleware.urlToPaths. This information can be used in a build step for tools like [connect-cachify](https://github.com/mozilla/connect-cachify/) that need access to the font file to create an caching hash.
 
 
 ## Create a Font Pack
