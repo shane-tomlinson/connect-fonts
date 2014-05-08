@@ -2,21 +2,19 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-const path            = require('path'),
-      fs              = require('fs'),
-      font_responder  = require('../lib/font-responder'),
-      configurator    = require('../lib/font-pack-configurator'),
-      pack_config     = require('./sample-font-packs/fonts-with-default/index'),
-      nodeunit        = require('nodeunit'),
-      ReqMock         = require('./mocks/req-mock'),
-      ResMock         = require('./mocks/res-mock');
+const font_responder  = require('../lib/font-responder');
+const configurator    = require('../lib/font-pack-configurator');
+const pack_config     = require('./sample-font-packs/fonts-with-default/index');
+const nodeunit        = require('nodeunit');
+const ReqMock         = require('./mocks/req-mock');
+const ResMock         = require('./mocks/res-mock');
 
 const TEST_DOMAIN   = "http://testdomain.com";
 
 // Set a 180 day cache.
 const MAX_AGE = 1000 * 60 * 60 * 24 * 180;
 
-var send;
+var responder;
 
 function testFontAvailable(url, contentType, test, done) {
   var req = new ReqMock({
@@ -36,7 +34,7 @@ function testFontAvailable(url, contentType, test, done) {
     }
   });
 
-  font_responder.font_responder(req, res, function() {
+  responder(req, res, function() {
     test.ok(false);
   });
 }
@@ -44,7 +42,7 @@ function testFontAvailable(url, contentType, test, done) {
 exports['font-responder-test'] = nodeunit.testCase({
   setUp: function (cb) {
     var config = configurator(pack_config);
-    font_responder.setup({
+    responder = font_responder.setup({
       url_to_paths: config["opensans-regular"].urlToPaths,
       allow_origin: TEST_DOMAIN,
       maxage: MAX_AGE,
@@ -63,7 +61,7 @@ exports['font-responder-test'] = nodeunit.testCase({
     });
     var res = new ResMock();
 
-    font_responder.font_responder(req, res, function() {
+    responder(req, res, function() {
       test.done();
     });
   },
@@ -74,7 +72,7 @@ exports['font-responder-test'] = nodeunit.testCase({
     });
     var res = new ResMock();
 
-    font_responder.font_responder(req, res, function() {
+    responder(req, res, function() {
       test.done();
     });
   },
@@ -85,7 +83,7 @@ exports['font-responder-test'] = nodeunit.testCase({
     });
     var res = new ResMock();
 
-    font_responder.font_responder(req, res, function() {
+    responder(req, res, function() {
       test.done();
     });
   },

@@ -13,12 +13,12 @@ module.exports = function(options) {
     method: options.method || 'GET',
     url: options.url || '/',
     headers: headers,
-    getHeader: function(header) {
+    getHeader: function (header) {
       return headers[header.toLowerCase()];
     },
     params: {},
-    pipe: function(stream) {
-      if (stream.end && stream.end) {
+    pipe: function (stream) {
+      if (stream && stream.end) {
         stream.end();
       }
       return this;
