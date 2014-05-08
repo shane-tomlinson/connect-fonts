@@ -102,7 +102,7 @@ font_middleware.generate_css(ua, lang, fonts, function(err, css) {
 Once the middleware setup function is called, a map of URLs=>paths can be retreived using font_middleware.urlToPaths. This information can be used in a build step for tools like [connect-cachify](https://github.com/mozilla/connect-cachify/) that need access to the font file to create an caching hash.
 
 
-## Creating a Font Pack
+## Create a Font Pack
 A font pack is an npm module like any other node library. Creating a new font pack is similar to creating any npm module.
 
 1. Install [connect-fonts-tools](https://github.com/shane-tomlinson/connect-fonts-tools) and run its `scripts/setup` utility.
@@ -154,11 +154,10 @@ npm install <font_pack_directory>
 * stomlinson@mozilla.com
 * set117@yahoo.com
 * https://shanetomlinson.com
-* http://github.com/shane-tomlinson
-* http://github.com/stomlinson
+* https://github.com/shane-tomlinson
 * @shane_tomlinson
 
-## Getting involved:
+## Get involved:
 MOAR font packs! See [connect-fonts-tools](https://github.com/shane-tomlinson/connect-fonts-tools) for tools to make this easy. [connect-fonts-opensans](https://github.com/shane-tomlinson/connect-fonts-opensans) is an example of a finished font pack.
 
 Any updates to connect-fonts are appreciated. All submissions will be reviewed and considered for merge.
