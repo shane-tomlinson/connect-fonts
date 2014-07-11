@@ -55,6 +55,10 @@ exports.font_pack_configurator = nodeunit.testCase({
         test.ok(["truetype", "opentype", "svg", "embedded-opentype", "woff"]
                     .indexOf(format.type) > -1);
 
+        if (format.type === "svg") {
+          test.ok(format.id);
+        }
+
         // check that the format of the URL is good
         test.ok(format.url.en.indexOf(path.join(
             "fonts", "en", "opensans-regular")) > -1);

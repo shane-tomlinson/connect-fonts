@@ -24,6 +24,7 @@ function testFontAvailable(url, contentType, test, done) {
   });
   var res = new ResMock({
     end: function() {
+      console.log('end?');
       if (done) return done(this);
 
       // Make sure Cache-Control headers are set.
@@ -39,6 +40,8 @@ function testFontAvailable(url, contentType, test, done) {
   font_responder.font_responder(req, res, function() {
     test.ok(false);
   });
+
+  req.end();
 }
 
 exports['font-responder-test'] = nodeunit.testCase({
@@ -48,7 +51,7 @@ exports['font-responder-test'] = nodeunit.testCase({
       url_to_paths: config["opensans-regular"].urlToPaths,
       allow_origin: TEST_DOMAIN,
       maxage: MAX_AGE,
-      compress: true
+      compress: false
     });
     cb();
   },
@@ -114,7 +117,7 @@ exports['font-responder-test'] = nodeunit.testCase({
   },
 
   'recognized font with ? on end - send the file': function(test) {
-    testFontAvailable("/fonts/en/opensans-regular.eot?", "application/vnd.ms-fontobject", test);
+    testFontAvailable("/fonts/en/opensans-regular.eot?#iefix", "application/vnd.ms-fontobject", test);
   }
 
 });

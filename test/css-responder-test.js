@@ -19,7 +19,7 @@ exports.css_responder = nodeunit.testCase({
       fonts: font_config,
       locale_to_url_keys: {},
       maxage: MAX_AGE,
-      compress: true
+      compress: false
     }, cb);
   },
 
@@ -56,7 +56,7 @@ exports.css_responder = nodeunit.testCase({
 
     var res = new ResMock({
       end: function() {
-        /*test.ok(this.getData().indexOf("/en/opensans-regular.woff") > -1);*/
+        test.ok(this.getData().indexOf("/en/opensans-regular.woff") > -1);
         test.ok(this.getHeader('Cache-Control'));
         test.done();
       }
@@ -67,6 +67,8 @@ exports.css_responder = nodeunit.testCase({
       test.ok(false);
       test.done();
     });
+
+    req.end();
   },
 
   'font_css_responder responds to font.css requests that do not specify a locale- default locale used': function(test) {
@@ -78,7 +80,7 @@ exports.css_responder = nodeunit.testCase({
 
     var res = new ResMock({
       end: function() {
-        /*test.ok(this.getData().indexOf("/default/opensans-regular.woff") > -1);*/
+        test.ok(this.getData().indexOf("/default/opensans-regular.woff") > -1);
         // Make sure Cache-Control headers are set.
         test.ok(this.getHeader('Cache-Control'));
         test.done();
@@ -90,6 +92,8 @@ exports.css_responder = nodeunit.testCase({
       test.ok(false);
       test.done();
     });
+
+    req.end();
   },
 
   'registerFont throws error before setup has been called': function(test) {
