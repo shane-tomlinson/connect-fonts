@@ -1,0 +1,61 @@
+{
+  "name": "connect-fonts",
+  "version": "1.0.0",
+  "dependencies": {
+    "filed": {
+      "version": "0.1.0",
+      "from": "filed@0.1.0"
+    },
+    "node-font-face-generator": {
+      "version": "0.1.3",
+      "from": "node-font-face-generator@0.1.3",
+      "resolved": "https://registry.npmjs.org/node-font-face-generator/-/node-font-face-generator-0.1.3.tgz",
+      "dependencies": {
+        "ejs": {
+          "version": "0.8.5",
+          "from": "ejs@0.8.5",
+          "resolved": "https://registry.npmjs.org/ejs/-/ejs-0.8.5.tgz"
+        },
+        "useragent": {
+          "version": "2.0.7",
+          "from": "useragent@2.0.7",
+          "resolved": "https://registry.npmjs.org/useragent/-/useragent-2.0.7.tgz",
+          "dependencies": {
+            "lru-cache": {
+              "version": "2.2.4",
+              "from": "lru-cache@2.2.x"
+            }
+          }
+        }
+      }
+    },
+    "mime": {
+      "version": "1.2.11",
+      "from": "mime@1.2.11",
+      "resolved": "https://registry.npmjs.org/mime/-/mime-1.2.11.tgz"
+    },
+    "oppressor": {
+      "version": "0.0.1",
+      "from": "oppressor@0.0.1",
+      "dependencies": {
+        "through": {
+          "version": "0.1.4",
+          "from": "through@~0.1.4"
+        },
+        "response-stream": {
+          "version": "0.0.0",
+          "from": "response-stream@~0.0.0"
+        },
+        "negotiator": {
+          "version": "0.2.6",
+          "from": "negotiator@~0.2.5"
+        }
+      }
+    },
+    "tmp": {
+      "version": "0.0.23",
+      "from": "tmp@0.0.23",
+      "resolved": "https://registry.npmjs.org/tmp/-/tmp-0.0.23.tgz"
+    }
+  }
+}
