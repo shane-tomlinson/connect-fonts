@@ -2,8 +2,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-var fs              = require('fs'),
-    middleware      = require('../lib/middleware'),
+var middleware      = require('../lib/middleware'),
     nodeunit        = require('nodeunit'),
     ReqMock         = require('./mocks/req-mock'),
     ResMock         = require('./mocks/res-mock'),
@@ -28,7 +27,7 @@ function setup(config, done) {
     allow_origin: "*",
     ua: config.ua,
     maxage: MAX_AGE,
-    compress: true
+    compress: false
   });
 
   done && done();
@@ -81,39 +80,37 @@ function testCSSNotServed(test, method, url, ua) {
 exports.no_ua_specified_in_config = nodeunit.testCase({
   setUp: setup,
 
-  'serve fonts.css for GET /en/opensans-regular/fonts.css, no caching headers set': function (test) {
-    testCSSServed(test, 'GET', '/en/opensans-regular/fonts.css', undefined, function (res) {
-      /*test.ok(res.getData().indexOf("/fonts/en/opensans-regular.woff")
-       * > -1);*/
+  'serve fonts.css for GET /en/opensans-regular/fonts.css, no caching headers set': function(test) {
+    testCSSServed(test, 'GET', '/en/opensans-regular/fonts.css', undefined, function(res) {
+      test.ok(res.getData().indexOf("/fonts/en/opensans-regular.woff") > -1);
       test.done();
     });
   },
 
-  'serve fonts.css for GET /af/opensans-regular/fonts.css - use font alias from locale-to-subdirs': function (test) {
-    testCSSServed(test, 'GET', '/af/opensans-regular/fonts.css', undefined, function (res) {
-      /*test.ok(res.getData().indexOf("/fonts/en/opensans-regular.woff")
-       * > -1);*/
+  'serve fonts.css for GET /af/opensans-regular/fonts.css - use font alias from locale-to-subdirs': function(test) {
+    testCSSServed(test, 'GET', '/af/opensans-regular/fonts.css', undefined, function(res) {
+      test.ok(res.getData().indexOf("/fonts/en/opensans-regular.woff") > -1);
       test.done();
     });
   },
 
-  'serve fonts.css for GET /es/opensans-regular/fonts.css - use latin fallback font defined by node-font-face-generator': function (test) {
-    testCSSServed(test, 'GET', '/es/opensans-regular/fonts.css', undefined, function (res) {
-      /*test.ok(res.getData().indexOf("/fonts/latin/opensans-regular.woff") > -1);*/
+  'serve fonts.css for GET /es/opensans-regular/fonts.css - use latin fallback font defined by node-font-face-generator': function(test) {
+    testCSSServed(test, 'GET', '/es/opensans-regular/fonts.css', undefined, function(res) {
+      test.ok(res.getData().indexOf("/fonts/latin/opensans-regular.woff") > -1);
       test.done();
     });
   },
 
-  'serve fonts.css for GET /ru/opensans-regular/fonts.css - use default fallback even though font defined by node-font-face-generator - cyrillic dir does not exist': function (test) {
-    testCSSServed(test, 'GET', '/ru/opensans-regular/fonts.css', undefined, function (res) {
-      /*test.ok(res.getData().indexOf("/fonts/default/opensans-regular.woff") > -1);*/
+  'serve fonts.css for GET /ru/opensans-regular/fonts.css - use default fallback even though font defined by node-font-face-generator - cyrillic dir does not exist': function(test) {
+    testCSSServed(test, 'GET', '/ru/opensans-regular/fonts.css', undefined, function(res) {
+      test.ok(res.getData().indexOf("/fonts/default/opensans-regular.woff") > -1);
       test.done();
     });
   },
 
-  'serve fonts.css for GET /cz/opensans-regular/fonts.css - use default font': function (test) {
-    testCSSServed(test, 'GET', '/cz/opensans-regular/fonts.css', undefined, function (res) {
-      /*test.ok(res.getData().indexOf("/fonts/default/opensans-regular.woff") > -1);*/
+  'serve fonts.css for GET /cz/opensans-regular/fonts.css - use default font': function(test) {
+    testCSSServed(test, 'GET', '/cz/opensans-regular/fonts.css', undefined, function(res) {
+      test.ok(res.getData().indexOf("/fonts/default/opensans-regular.woff") > -1);
       test.done();
     });
   },
@@ -138,15 +135,14 @@ exports.no_ua_specified_in_config = nodeunit.testCase({
 exports.specify_ua_in_config = nodeunit.testCase({
   setUp: setup.bind(null, { ua: 'all' }),
 
-  'serve fonts even if headers["user-agent"] is not specified': function (test) {
-    testCSSServed(test, 'GET', '/en/opensans-regular/fonts.css', undefined, function (res) {
-      /*
-      test.ok(res.getData().indexOf("/fonts/en/opensans-regular.woff") > -1);
-      test.ok(res.getData().indexOf("/fonts/en/opensans-regular.eot") > -1);
-      test.ok(res.getData().indexOf("/fonts/en/opensans-regular.svg") > -1);
-      test.ok(res.getData().indexOf("/fonts/en/opensans-regular.ttf") > -1);
-      test.ok(res.getData().indexOf("/fonts/en/opensans-regular.otf") > -1);
-      */
+  'serve fonts even if headers["user-agent"] is not specified in headers': function(test) {
+    testCSSServed(test, 'GET', '/en/opensans-regular/fonts.css', undefined, function(res) {
+      var data = res.getData();
+      test.ok(data.indexOf("/fonts/en/opensans-regular.woff") > -1);
+      test.ok(data.indexOf("/fonts/en/opensans-regular.eot") > -1);
+      test.ok(data.indexOf("/fonts/en/opensans-regular.svg#opensans-regular") > -1);
+      test.ok(data.indexOf("/fonts/en/opensans-regular.ttf") > -1);
+      test.ok(data.indexOf("/fonts/en/opensans-regular.otf") > -1);
       test.done();
     });
   }
@@ -159,7 +155,7 @@ exports.register_fontpack_after_setup = nodeunit.testCase({
     mw.registerFontPack(shadows_into_light_config, function (err) {
       test.ok(!err);
 
-      testCSSServed(test, 'GET', '/en/shadows-into-light/fonts.css', undefined, function (res) {
+      testCSSServed(test, 'GET', '/en/shadows-into-light/fonts.css', undefined, function () {
         test.done();
       });
     });

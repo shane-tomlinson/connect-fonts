@@ -24,7 +24,7 @@
   "main": "index",
   "dependencies": {
     "filed": "0.1.0",
-    "node-font-face-generator": "0.1.3",
+    "node-font-face-generator": "0.1.5",
     "mime": "1.2.11",
     "oppressor": "0.0.1",
     "tmp": "0.0.23"
