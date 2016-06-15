@@ -22,7 +22,6 @@ function testFontAvailable(url, contentType, test, done) {
   });
   var res = new ResMock({
     end: function() {
-      console.log('end?');
       if (done) return done(this);
 
       // Make sure Cache-Control headers are set.
@@ -93,6 +92,13 @@ exports['font-responder-test'] = nodeunit.testCase({
 
   'woff: recognized font, font file available - send the file': function(test) {
     testFontAvailable("/fonts/en/opensans-regular.woff", "application/x-font-woff", test, function(res) {
+      test.equal(res.getHeader("Access-Control-Allow-Origin"), TEST_DOMAIN);
+      test.done();
+    });
+  },
+
+  'woff2: recognized font, font file available - send the file': function(test) {
+    testFontAvailable("/fonts/en/opensans-regular.woff2", "application/x-font-woff", test, function(res) {
       test.equal(res.getHeader("Access-Control-Allow-Origin"), TEST_DOMAIN);
       test.done();
     });

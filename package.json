@@ -17,12 +17,7 @@
   "bugs": {
     "url": "https://github.com/shane-tomlinson/connect-fonts/issues"
   },
-  "licenses": [
-    {
-      "type": "MPL 2.0",
-      "url": "http://mozilla.org/MPL/2.0/"
-    }
-  ],
+  "license": "MPL-2.0",
   "version": "2.0.2",
   "engines": {
     "node": ">= 0.10.0"
@@ -30,8 +25,8 @@
   "main": "index",
   "dependencies": {
     "filed": "0.1.0",
-    "node-font-face-generator": "0.1.5",
-    "mime": "1.2.11",
+    "node-font-face-generator": "0.1.6",
+    "mime": "1.3.4",
     "oppressor": "0.0.1",
     "tmp": "0.0.23"
   },
