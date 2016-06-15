@@ -1,5 +1,8 @@
 # A list of important changes, newest changes first.
 
+## 2.0.3
+  * Add support for woff2 files.
+
 ## 2.0.2
   * Re-enable the tests that check the served up CSS content.
   * Extract common functionality between css-responder and font-responder
