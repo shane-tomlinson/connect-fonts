@@ -30,13 +30,13 @@ exports.font_pack_configurator = nodeunit.testCase({
 
     test.equal(fontConfig.root, path.join(__dirname, "sample-font-packs", "fonts-with-default", "fonts/"));
 
-    // 6 fonts in config, 2 local, 5 remote.
-    // four remotes are svg, woff, opentype, truetype and embedded-opentype
-    test.equal(fontConfig.formats.length, 7);
+    // 6 fonts in config, 2 local, 6 remote.
+    // four remotes are svg, woff, woff2, opentype, truetype and embedded-opentype
+    test.equal(fontConfig.formats.length, 8);
 
-    // each of the remote fonts should have three locale's specified for
-    // 15 paths. (locales are en, latin, default)
-    test.equal(Object.keys(fontConfig.urlToPaths).length, 15);
+    // each of the remote fonts should have three locale's specified.
+    // (locales are en, latin, default)
+    test.equal(Object.keys(fontConfig.urlToPaths).length, 18);
 
     // check the paths to make sure they match what is expected.
     for (var url in fontConfig.urlToPaths) {
@@ -52,7 +52,7 @@ exports.font_pack_configurator = nodeunit.testCase({
         test.ok("default" in format.url);
         test.ok("en" in format.url);
 
-        test.ok(["truetype", "opentype", "svg", "embedded-opentype", "woff"]
+        test.ok(["truetype", "opentype", "svg", "embedded-opentype", "woff", "woff2"]
                     .indexOf(format.type) > -1);
 
         if (format.type === "svg") {
