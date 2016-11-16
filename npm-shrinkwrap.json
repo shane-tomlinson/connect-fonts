@@ -1,20 +1,20 @@
 {
   "name": "connect-fonts",
-  "version": "2.0.2",
+  "version": "2.0.3",
   "dependencies": {
     "filed": {
       "version": "0.1.0",
-      "from": "filed@0.1.0",
+      "from": "https://registry.npmjs.org/filed/-/filed-0.1.0.tgz",
       "resolved": "https://registry.npmjs.org/filed/-/filed-0.1.0.tgz"
     },
     "mime": {
       "version": "1.3.4",
-      "from": "mime@1.3.4",
+      "from": "https://registry.npmjs.org/mime/-/mime-1.3.4.tgz",
       "resolved": "https://registry.npmjs.org/mime/-/mime-1.3.4.tgz"
     },
     "node-font-face-generator": {
       "version": "0.1.6",
-      "from": "node-font-face-generator@0.1.6",
+      "from": "https://registry.npmjs.org/node-font-face-generator/-/node-font-face-generator-0.1.6.tgz",
       "resolved": "https://registry.npmjs.org/node-font-face-generator/-/node-font-face-generator-0.1.6.tgz",
       "dependencies": {
         "ejs": {
@@ -58,31 +58,31 @@
         }
       }
     },
-    "oppressor": {
-      "version": "0.0.1",
-      "from": "oppressor@0.0.1",
-      "resolved": "https://registry.npmjs.org/oppressor/-/oppressor-0.0.1.tgz",
+    "oppressor-contrib": {
+      "version": "1.0.1",
+      "from": "oppressor-contrib@1.0.1",
+      "resolved": "https://registry.npmjs.org/oppressor-contrib/-/oppressor-contrib-1.0.1.tgz",
       "dependencies": {
-        "through": {
-          "version": "0.1.4",
-          "from": "through@>=0.1.4 <0.2.0",
-          "resolved": "https://registry.npmjs.org/through/-/through-0.1.4.tgz"
+        "negotiator": {
+          "version": "0.6.1",
+          "from": "negotiator@>=0.6.1 <0.7.0",
+          "resolved": "https://registry.npmjs.org/negotiator/-/negotiator-0.6.1.tgz"
         },
         "response-stream": {
           "version": "0.0.0",
           "from": "response-stream@>=0.0.0 <0.1.0",
           "resolved": "https://registry.npmjs.org/response-stream/-/response-stream-0.0.0.tgz"
         },
-        "negotiator": {
-          "version": "0.2.8",
-          "from": "negotiator@>=0.2.5 <0.3.0",
-          "resolved": "https://registry.npmjs.org/negotiator/-/negotiator-0.2.8.tgz"
+        "through": {
+          "version": "0.1.4",
+          "from": "through@>=0.1.4 <0.2.0",
+          "resolved": "https://registry.npmjs.org/through/-/through-0.1.4.tgz"
         }
       }
     },
     "tmp": {
       "version": "0.0.23",
-      "from": "tmp@0.0.23",
+      "from": "https://registry.npmjs.org/tmp/-/tmp-0.0.23.tgz",
       "resolved": "https://registry.npmjs.org/tmp/-/tmp-0.0.23.tgz"
     }
   }
