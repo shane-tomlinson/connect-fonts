@@ -29,8 +29,8 @@
           "dependencies": {
             "uap-core": {
               "version": "0.5.0",
-              "from": "git://github.com/ua-parser/uap-core.git#49b141ffe86d5138c332f733d6b2007675bbeb43",
-              "resolved": "git://github.com/ua-parser/uap-core.git#49b141ffe86d5138c332f733d6b2007675bbeb43"
+              "from": "https://github.com/ua-parser/uap-core.git#49b141ffe86d5138c332f733d6b2007675bbeb43",
+              "resolved": "https://github.com/ua-parser/uap-core.git#49b141ffe86d5138c332f733d6b2007675bbeb43"
             },
             "uap-ref-impl": {
               "version": "0.2.0",
