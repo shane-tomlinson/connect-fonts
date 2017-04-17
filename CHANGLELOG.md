@@ -1,5 +1,8 @@
 # A list of important changes, newest changes first.
 
+## 2.1.3
+  * Update node-font-face-generator to 0.1.8.
+  
 ## 2.0.3
   * Add support for woff2 files.
 
